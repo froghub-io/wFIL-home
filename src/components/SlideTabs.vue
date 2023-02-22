@@ -93,7 +93,7 @@ input[id=radio-3]:checked ~ .slider-glider {
   position: absolute;
   display: flex;
   height: 35px;
-  width: 49.4%;
+  width: 48.5%;
   background-color: var(--secondary-color);
   z-index: 1;
   border-radius: 99px;

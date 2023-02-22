@@ -1149,15 +1149,15 @@ input[type="number"] {
   border-radius: 4px;
 }
 
-.opacity-08{
+.opacity-08 {
   opacity: 0.8;
 }
 
-.opacity-06{
+.opacity-06 {
   opacity: 0.6;
 }
 
-.w-class{
+.w-class {
   position: relative;
 }
 
@@ -1172,7 +1172,7 @@ input[type="number"] {
   z-index: 10;
 }
 
-.w-class:hover::after{
+.w-class:hover::after {
   content: 'Liquidity stake protocol, built on FVM, allows users to earn block rewards without locking up assets or maintaining Storage Provider infrastructure.';
   position: absolute;
   color: #FFFFFF;
@@ -1185,7 +1185,7 @@ input[type="number"] {
   height: 216px;
   background-color: rgba(16, 27, 83, 0.8);
   border-radius: 14px;
-  box-shadow: 0px 6px 24px 0px rgba(21,42,149,0.12);
+  box-shadow: 0px 6px 24px 0px rgba(21, 42, 149, 0.12);
 }
 
 
@@ -1214,4 +1214,8 @@ input[type="number"] {
     margin-left: 12px;
   }
 
+}
+
+.wfil-address-text:hover {
+  text-decoration: underline
 }
