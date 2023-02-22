@@ -5,11 +5,11 @@
         <h3 class="fw-extra-bold fs-36" style="z-index: 1">{{$t('home title')}}</h3>
         <span class="fw-medium fs-18 fs-sm-14" style="z-index: 1">{{$t('home tips')}}</span>
       </div>
-      <div class="row mt-4">
+      <div class="row mt-4 justify-content-center">
 
-        <div class="col-7 mt-3">
+        <div class="col-lg-7 col-10 order-lg-0 order-1 mt-3">
 
-          <div class="row pr-5">
+          <div class="row pr-lg-5">
 
             <div class="fs-30 fw-extra-bold pl-2 pr-2" style="border: 3px solid #101B52">
               Put plainly, wETH is "wrapped ETH" but let's start by introducing the players.
@@ -37,7 +37,7 @@
 
           </div>
 
-          <div class="row pr-5" style="margin-top: 150px;">
+          <div class="row pr-lg-5" style="margin-top: 150px;">
             <div class="col-lg-12 col-md-12 text-center mb-40" data-aos="fade-in">
               <h2 class="section-title fw-bold">How It Works</h2>
               <p class="fw-medium" style="opacity: .8;">Improve capital efficiency through DeFI based on liquidity for stake assets.</p>
@@ -56,7 +56,7 @@
           </div>
 
         </div>
-        <div class="col-5">
+        <div class="col-lg-5 col-12 order-lg-1 order-0 mb-5">
 
           <div class="row justify-content-center mt-3 mb-3">
             <div class="col-xl-12 col-lg-12">
