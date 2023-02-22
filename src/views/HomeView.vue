@@ -83,6 +83,10 @@
                   </div>
                 </div>
 
+                <div class="col-12 mt-2">
+                  <div style="height: 1px; width: 100%;background-color: #504a4a;"></div>
+                </div>
+
                 <div class="d-flex mt-3">
                   <div class="col-6 p-0 pl-4">
                     <div>TOTAL SUPPLY</div>
