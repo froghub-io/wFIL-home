@@ -9,32 +9,37 @@
 
         <div class="col-lg-7 col-10 order-lg-0 order-1 mt-3">
 
-          <div class="row pr-lg-5">
+          <div class=" pr-lg-5">
 
             <div class="fs-30 fw-extra-bold pl-2 pr-2" style="border: 3px solid #101B52">
-              Put plainly, wETH is "wrapped ETH" but let's start by introducing the players.
+              Put plainly, wFIL is "wrapped FIL" but let's start by introducing the players.
             </div>
             <div class="fs-24 fw-bold mt-4 ">
-              FIRST, THERE'S ETHER TOKEN
+              FIRST, THERE'S FILECOIN TOKEN
             </div>
             <div class="fs-16 fw-medium ">
-              Ether or ETH is the native currency built on the Ethereum blockchain.
+              FILECOIN or FIL is the native currency built on the FILECOIN blockchain.
             </div>
 
             <div class="fs-24 fw-bold mt-4 ">
               SECOND, THERE ARE ALT TOKENS
             </div>
             <div class="fs-16 fw-medium ">
-              When a dApp (decentralized app) is built off of the Ethereum Blockchain it usually implements its own form
-              of Token. Think Augur’s REP Token, or Bancor's BNT Token.
+              When a dApp (decentralized app) is built off of the FILECOIN Blockchain it usually implements its own form of Token.
             </div>
 
             <div class="fs-24 fw-bold mt-4 ">
-              FINALLY THE ERC-20 STANDARD
+              NOW THE FRC-2612 STANDARD
             </div>
             <div class="fs-16 fw-medium ">
-              ERC-20 is a standard developed after the release of ETH that defines how tokens are transferred and how to
-              keep a consistent record of those transfers among tokens in the Ethereum Network.
+              FRC-2612 is a standard developed after the release of FIL that defines how tokens are transferred and how to keep a consistent record of those transfers among tokens in the Filecoin Network.
+            </div>
+
+            <div class="fs-24 fw-bold mt-4 ">
+              FUTURE THE FRC-46 STANDARD
+            </div>
+            <div class="fs-16 fw-medium ">
+              Coming soon...
             </div>
 
           </div>
@@ -80,8 +85,8 @@
 
                 <div class="d-flex mt-3">
                   <div class="col-6 p-0 pl-4">
-                    <div>MAX TOTAL SUPPLY</div>
-                    <div>200,000,000 WFIL</div>
+                    <div>TOTAL SUPPLY</div>
+                    <div>200,000,000 FIL</div>
                   </div>
                   <div class="col-6 p-0 pl-4">
                     <div>HOLDERS</div>
@@ -198,7 +203,7 @@
             assets.</p>
         </div>
         <div class="has-colored-text text-center row">
-          <div v-for="(tab, index) in tablist" :key="index" class="col-lg-4 col-md-12">
+          <div v-for="(tab, index) in tablist" :key="index" class="col-lg-6 col-md-12">
             <div class="text-center p-0 p-md-2 mb-30" data-aos="fade-up">
               <div class="has-text-color h2">
                 <img src="@/assets/images/icons/w.png" alt="" style="height: 60px; width: 60px;">
@@ -217,8 +222,10 @@
 </template>
 
 <script>
-import {useAccount, useBalance, useConnect} from "vagmi";
+import {useAccount, useBalance, useConnect, useClient} from "vagmi";
 import SlideTabs from '@/components/SlideTabs'
+import Web3 from "web3";
+import WFILABI from '@/assets/WFIL.json'
 
 export default {
   name: 'HomeView',
@@ -242,38 +249,28 @@ export default {
           receive: ''
         }
       },
-      contractAddress: '0xbC2E241E01E9F3D5EF8D78C2542c83d25763C9D2',
+      contractAddress: '0xAf6518f6F370D2f92df657299F7d910548Fb1205',
       tablist: [
         {
           id: 'TaskManagement',
-          name: 'Task Management',
-          content: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat sed. At vero eos et accusam et justo duo dolores et ea rebum satet',
+          name: 'FRC-2612',
+          content: 'WFIL is a wrapper token that features a 1:1 peg ratio to FIL and uses the FRC-2612 token standard instead.',
         },
         {
-          id: 'BuiltInChat',
-          name: 'Built In Chat',
-          content: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat sed. At vero eos et accusam et justo duo dolores et ea rebum satet',
+          id: 'Decentralized',
+          name: 'Decentralized',
+          content: 'You can use a decentralized exchange (similar to Uniswap on ETH) to wrap/ unwrap FIL directly',
         },
         {
-          id: 'ProjectAnalytics',
-          name: 'Project Analytics',
-          content: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat sed. At vero eos et accusam et justo duo dolores et ea rebum satet',
+          id: 'Interoperability',
+          name: 'Interoperability',
+          content: 'Seamless transactions between WFIL and FRC-2612 tokens reduce the risk of smart contract errors and enhance interoperability between dapps.',
         },
         {
-          id: 'TaskCollaboration',
-          name: 'Task Collaboration',
-          content: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat sed. At vero eos et accusam et justo duo dolores et ea rebum satet',
+          id: 'Compatibility',
+          name: 'Compatibility',
+          content: 'WFIL will support the upcoming FRC-46 standard',
         },
-        {
-          id: 'TaskManagement2',
-          name: 'Task Management',
-          content: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat sed. At vero eos et accusam et justo duo dolores et ea rebum satet',
-        },
-        {
-          id: 'TaskManagement3',
-          name: 'Task Management',
-          content: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat sed. At vero eos et accusam et justo duo dolores et ea rebum satet',
-        }
       ]
     }
   },
@@ -299,8 +296,33 @@ export default {
           addressOrName: address
         })
     this.balance = balance
+
+  },
+  mounted() {
+    var client = useClient();
+    console.log(client.value)
+    const _web3 = new Web3(Web3.givenProvider);
+    console.log(window.web3.currentProvider)
+
+    console.log(this.address)
+    _web3.eth.getBalance(this.address, (err, wei) => {
+      console.log(wei)
+    })
+
+
+    // this.tans(_web3)
   },
   methods: {
+    async tans(_web3){
+      const contract = new _web3.eth.Contract(WFILABI.abi, this.contractAddress);
+
+
+      contract.methods.deposit().send({from: this.address, value: Web3.utils.toWei("1","ether")})
+      .on('receipt' , (receipt) => {
+        console.log(receipt)
+      })
+
+    },
     selectTab(v) {
       this.tabIndex = v
     },

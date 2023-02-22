@@ -1,5 +1,5 @@
 export default {
-    'home title': 'Wrap & Unwrap',
+    'home title': 'Wrapped Filecoin',
     'home tips': 'Stable-balance FIL wrapper for DeFi',
     'home': 'Home',
     'faq': 'Faq',
