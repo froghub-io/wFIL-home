@@ -8,13 +8,13 @@
   text-align: center;
   overflow: hidden;
   transition: 0.4s ease-out;
-  background-image: url("@/assets/images/bg/loading-bg.png");
+  background-color: #D1FFF4;
 
   .block {
     .loader-image {
       transition: 0.3s ease-out;
-      height: 90px;
-      width: 90px;
+      height: 180px;
+      width: 180px;
       display: flex;
       justify-content: center;
       align-items: center;

@@ -4,12 +4,13 @@
     <div class="preloader position-fixed d-flex align-items-center justify-content-center">
       <div class="block">
         <div class="loader-image mb-20">
-          <img src="@/assets/images/logo/logo-light.png" alt="" style="width: 50px;height: 50px;">
+          <h2 class="loader-text text-uppercase">
+            <span class="h3 fw-medium mb-1">Welcome to</span>
+            <div class="d-flex fw-extra-bold fs-36 justify-content-center align-items-center mt-3">
+              W<span class="" style="border: 4px solid #101B52">FIL</span>
+            </div>
+          </h2>
         </div>
-        <h2 class="loader-text text-uppercase">
-          <span class="h3 font-weight-light mb-1">Welcome to</span>
-          <span class="font-weight-bold">WFIL</span>
-        </h2>
       </div>
     </div>
     <i-header/>
