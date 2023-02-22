@@ -1,5 +1,5 @@
 <template>
-  <div class="position-relative" style="min-height: 100vh; overflow-x: hidden">
+  <div class="position-relative">
     <img alt="" src="@/assets/images/bg/bg.png" width="100%" height="100%" class="position-absolute" loading="lazy">
     <div class="preloader position-fixed d-flex align-items-center justify-content-center">
       <div class="block">
