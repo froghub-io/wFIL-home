@@ -37,7 +37,7 @@
             </div>
 
             <div class="fs-24 fw-bold mt-4 ">
-              Wrapped Filecoin v2
+              FUTURE THE FRC-46 STANDARD
             </div>
             <div class="fs-16 fw-medium ">
               Coming soon...
@@ -505,7 +505,7 @@ export default {
       if (!this.contractAddress) {
         return ''
       }
-      return this.contractAddress.toString().substring(0, 10) + '...' + this.contractAddress.toString().substring(this.contractAddress.length - 10)
+      return this.contractAddress.toString().substring(0, 8) + '...' + this.contractAddress.toString().substring(this.contractAddress.length - 8)
     }
   }
 }
