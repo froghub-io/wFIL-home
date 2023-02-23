@@ -6,14 +6,20 @@
           W<span class="" style="border: 4px solid #101B52">FIL</span>
         </a>
 
-          <div>
-            <div class="border p-1 pl-4 pr-4" data-toggle="modal" data-target="#netWorkModal"
-                 style="cursor: pointer; border-radius: 50px;border-color: #34b4db!important;">
-              <div class="ml-1">
+          <div class="d-flex align-items-center align-content-center">
+            <div class="mr-4 cursor-pointer fw-bold fs-16 wfil-address-text" @click="gotoDocs">
+              DOCS
+            </div>
+            <div style="height: 25px; width: 1px; background-color: #d0d0d0" class="mr-4"></div>
+            <div>
+              <div class="border p-1 pl-lg-4 pr-lg-4" data-toggle="modal" data-target="#netWorkModal"
+                   style="cursor: pointer; border-radius: 50px;border-color: #34b4db!important;">
+                <div class="ml-1">
             <span>
                   <img :src="chainsMap[chain?.id].img" alt="" style="width: 20px; height: 20px; margin-right: 5px;">
                 </span>
-                <span class="fw-medium fs-12 ml-1">{{ chainsMap[chain?.id].name }}</span>
+                  <span class="fw-medium fs-12 ml-1 d-lg-inline d-none">{{ chainsMap[chain?.id].name }}</span>
+                </div>
               </div>
             </div>
           </div>
@@ -114,6 +120,9 @@ export default {
         chainId: 3141,
         connector: this.connectors[0]
       })
+    },
+    gotoDocs(){
+      window.location.href = `https://docs.froghub.io/wfil`
     },
     checkMenu(menu) {
       let {link} = menu
