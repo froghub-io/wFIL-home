@@ -29,10 +29,10 @@
             </div>
 
             <div class="fs-24 fw-bold mt-4 ">
-              NOW THE FRC-2612 STANDARD
+              NOW THE ERC-2612 STANDARD
             </div>
             <div class="fs-16 fw-medium ">
-              FRC-2612 is a standard developed after the release of FIL that defines how tokens are transferred and how
+              ERC-2612 is a standard developed after the release of FIL that defines how tokens are transferred and how
               to keep a consistent record of those transfers among tokens in the Filecoin Network.
             </div>
 
@@ -302,8 +302,8 @@ export default {
       tablist: [
         {
           id: 'TaskManagement',
-          name: 'FRC-2612',
-          content: 'WFIL is a wrapper token that features a 1:1 peg ratio to FIL and uses the FRC-2612 token standard instead.',
+          name: 'ERC-2612',
+          content: 'WFIL is a wrapper token that features a 1:1 peg ratio to FIL and uses the ERC-2612 token standard instead.',
         },
         {
           id: 'Decentralized',
@@ -429,12 +429,13 @@ export default {
       }
     },
     wrap() {
+      let receive = this.data.fil.receive
       this.data.fil.receive = ''
       let _this = this
       const contract = new this.innerWeb3.eth.Contract(WFILABI.abi, this.contractAddress);
       contract.methods.deposit().send({
         from: this.address,
-        value: Web3.utils.toWei(this.data.fil.receive.toString(), "ether")
+        value: Web3.utils.toWei(receive.toString(), "ether")
       }).on('receipt', (receipt) => {
         this.initTotalSupply()
         console.log(receipt)
@@ -458,15 +459,17 @@ export default {
       });
     },
     unwrap() {
-      this.data.wfil.receive = ''
+      let receive = this.data.wfil.receive
+
       let _this = this
       const contract = new this.innerWeb3.eth.Contract(WFILABI.abi, this.contractAddress);
-      contract.methods.withdraw(Web3.utils.toWei(this.data.wfil.receive.toString(), "ether"))
+      contract.methods.withdraw(Web3.utils.toWei(receive.toString(), "ether"))
           .send({
             from: this.address,
-            data: Web3.utils.toWei(this.data.wfil.receive.toString(), "ether")
+            data: Web3.utils.toWei(receive.toString(), "ether")
           })
           .on('receipt', (receipt) => {
+            this.data.wfil.receive = ''
             this.initTotalSupply()
             console.log(receipt)
             _this.voteResuleFail = false
