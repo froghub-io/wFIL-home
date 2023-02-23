@@ -48,7 +48,7 @@
       <div class="container">
         <div class="row">
           <div class="col-12">
-            <div class="block border-top text-center content">©2022 FrogHub All rights reserved.</div>
+            <div class="block border-top text-center content cursor-pointer" @click="gotoFrogHub">©2022 FrogHub All rights reserved.</div>
           </div>
         </div>
       </div>
@@ -65,7 +65,12 @@
 
 <script>
 export default {
-  name: "IFooter"
+  name: "IFooter",
+  methods: {
+    gotoFrogHub(){
+      window.location.href = `https://www.froghub.io`
+    }
+  }
 }
 </script>
 

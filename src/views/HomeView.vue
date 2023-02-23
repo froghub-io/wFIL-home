@@ -14,17 +14,17 @@
               Put plainly, wFIL is "wrapped FIL" but let's start by introducing the players.
             </div>
             <div class="fs-24 fw-bold mt-4 ">
-              FIRST, THERE'S FILECOIN TOKEN
+              FIRST, THERE'S Filecoin TOKEN
             </div>
             <div class="fs-16 fw-medium ">
-              FILECOIN or FIL is the native currency built on the FILECOIN blockchain.
+              FIL is the native currency built on the Filecoin blockchain.
             </div>
 
             <div class="fs-24 fw-bold mt-4 ">
               SECOND, THERE ARE ALT TOKENS
             </div>
             <div class="fs-16 fw-medium ">
-              When a dApp (decentralized app) is built off of the FILECOIN Blockchain it usually implements its own form
+              When a dApp (decentralized app) is built off of the Filecoin Blockchain it usually implements its own form
               of Token.
             </div>
 
@@ -37,7 +37,7 @@
             </div>
 
             <div class="fs-24 fw-bold mt-4 ">
-              FUTURE THE FRC-46 STANDARD
+              Wrapped Filecoin v2
             </div>
             <div class="fs-16 fw-medium ">
               Coming soon...
@@ -100,7 +100,7 @@
                   </div>
                   <div class="col-6 p-0 pl-4">
                     <div>FIL PRICE</div>
-                    <div>{{ filPrice }}</div>
+                    <div>{{ parseFloat(filPrice).toFixed(3) }} USDT</div>
                   </div>
                 </div>
 
@@ -312,8 +312,8 @@ export default {
         },
         {
           id: 'Interoperability',
-          name: 'Interoperability',
-          content: 'Seamless transactions between WFIL and FRC-2612 tokens reduce the risk of smart contract errors and enhance interoperability between dapps.',
+          name: 'Flash Loan',
+          content: 'Allows you to flashLoan an arbitrary amount of Wrapped FIL, unbacked by real FIL, with the condition that it is burned before the end of the transaction. No fees are charged.',
         },
         {
           id: 'Compatibility',
