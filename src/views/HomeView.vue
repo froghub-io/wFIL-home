@@ -40,7 +40,7 @@
               FUTURE THE FRC-46 STANDARD
             </div>
             <div class="fs-16 fw-medium ">
-              Coming soon...
+              Coming soon...Wrapped Filecoin v2
             </div>
 
           </div>
@@ -359,12 +359,24 @@ export default {
   },
   mounted() {
     this.innerWeb3 = new Web3(Web3.givenProvider)
-    const contract = new this.innerWeb3.eth.Contract(WFILABI.abi, this.contractAddress);
-    contract.methods.totalSupply().call((err, result) => {
-      this.totalSupply = Web3.utils.fromWei(result)
-    })
+    this.initTotalSupply()
+    this.interval()
   },
   methods: {
+    interval(){
+      setTimeout(() => {
+        console.log('interval')
+        this.initTotalSupply()
+        this.getFilPrice()
+        this.interval()
+      }, 30000)
+    },
+    initTotalSupply(){
+      const contract = new this.innerWeb3.eth.Contract(WFILABI.abi, this.contractAddress);
+      contract.methods.totalSupply().call((err, result) => {
+        this.totalSupply = Web3.utils.fromWei(result)
+      })
+    },
     getFilPrice() {
       let url = "https://api.binance.com/api/v3/ticker/price?symbol=FILUSDT"
       fetch(url).then(async res => {
@@ -417,12 +429,14 @@ export default {
       }
     },
     wrap() {
+      this.data.fil.receive = ''
       let _this = this
       const contract = new this.innerWeb3.eth.Contract(WFILABI.abi, this.contractAddress);
       contract.methods.deposit().send({
         from: this.address,
         value: Web3.utils.toWei(this.data.fil.receive.toString(), "ether")
       }).on('receipt', (receipt) => {
+        this.initTotalSupply()
         console.log(receipt)
         _this.voteResuleFail = false
         _this.voteResuleOk = true
@@ -444,6 +458,7 @@ export default {
       });
     },
     unwrap() {
+      this.data.wfil.receive = ''
       let _this = this
       const contract = new this.innerWeb3.eth.Contract(WFILABI.abi, this.contractAddress);
       contract.methods.withdraw(Web3.utils.toWei(this.data.wfil.receive.toString(), "ether"))
@@ -452,6 +467,7 @@ export default {
             data: Web3.utils.toWei(this.data.wfil.receive.toString(), "ether")
           })
           .on('receipt', (receipt) => {
+            this.initTotalSupply()
             console.log(receipt)
             _this.voteResuleFail = false
             _this.voteResuleOk = true
