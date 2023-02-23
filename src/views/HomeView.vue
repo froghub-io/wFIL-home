@@ -32,7 +32,7 @@
               NOW THE ERC-2612 STANDARD
             </div>
             <div class="fs-16 fw-medium ">
-              ERC-2612 is a standard developed after the release of FIL that defines how tokens are transferred and how
+              ERC-2612 is a standard that defines how tokens are transferred and how
               to keep a consistent record of those transfers among tokens in the Filecoin Network.
             </div>
 
