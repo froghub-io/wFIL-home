@@ -69,7 +69,8 @@
                   <div v-if="tabIndex !== 0" class="col-7 col-md-7 p-0 pl-4">
                     <div class="fs-7">WFIL Balance</div>
                     <div class="fs-5 font-weight-bold">
-                      {{ wfilBalance&&wfilBalance.data ? parseFloat(wfilBalance.data.formatted).toFixed(6) || 0 : 0 }} WFIL
+                      {{ wfilBalance && wfilBalance.data ? parseFloat(wfilBalance.data.formatted).toFixed(6) || 0 : 0 }}
+                      WFIL
                     </div>
                   </div>
                   <template v-if="isConnected">
@@ -123,8 +124,10 @@
                         </span>
 
                           <span style="opacity: .8" class="ml-2 cursor-pointer copy-text" @click="copyAddress">
-<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-clipboard-fill" viewBox="0 0 16 16">
-  <path fill-rule="evenodd" d="M10 1.5a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-1Zm-5 0A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5v1A1.5 1.5 0 0 1 9.5 4h-3A1.5 1.5 0 0 1 5 2.5v-1Zm-2 0h1v1A2.5 2.5 0 0 0 6.5 5h3A2.5 2.5 0 0 0 12 2.5v-1h1a2 2 0 0 1 2 2V14a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V3.5a2 2 0 0 1 2-2Z"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-clipboard-fill"
+     viewBox="0 0 16 16">
+  <path fill-rule="evenodd"
+        d="M10 1.5a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-1Zm-5 0A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5v1A1.5 1.5 0 0 1 9.5 4h-3A1.5 1.5 0 0 1 5 2.5v-1Zm-2 0h1v1A2.5 2.5 0 0 0 6.5 5h3A2.5 2.5 0 0 0 12 2.5v-1h1a2 2 0 0 1 2 2V14a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V3.5a2 2 0 0 1 2-2Z"/>
 </svg>                        </span>
 
                       </span>
@@ -273,8 +276,8 @@ export default {
   components: {SlideTabs},
   data() {
     return {
-      voteResuleOk:false,
-      voteResuleFail:false,
+      voteResuleOk: false,
+      voteResuleFail: false,
       voteResuleFailMes: '',
       tabIndex: 0,
       connect: undefined,
@@ -347,7 +350,8 @@ export default {
     let wfilBalance = useBalance({
       addressOrName: address,
       watch: true,
-      token: this.contractAddress});
+      token: this.contractAddress
+    });
     this.balance = data
     this.wfilBalance = wfilBalance
 
@@ -387,11 +391,27 @@ export default {
       this.data.wfil.receive = parseFloat(this.wfilBalance.data.formatted).toFixed(10)
     },
     filChange() {
+      if (this.data.fil.receive.toString().indexOf('-') >= 0 || this.data.fil.receive.toString().indexOf('e') >= 0) {
+        this.data.fil.receive = 0
+        return
+      }
+      if (parseFloat(this.data.fil.receive) <= 0) {
+        this.data.fil.receive = 0
+        return
+      }
       if (parseFloat(this.data.fil.receive) > parseFloat(this.balance.formatted).toFixed(10)) {
         this.data.fil.receive = parseFloat(this.balance.formatted).toFixed(10)
       }
     },
     wfilChange() {
+      if (this.data.wfil.receive.toString().indexOf('-') >= 0 || this.data.wfil.receive.toString().indexOf('e') >= 0) {
+        this.data.wfil.receive = 0
+        return
+      }
+      if (parseFloat(this.data.wfil.receive) <= 0) {
+        this.data.wfil.receive = 0
+        return
+      }
       if (parseFloat(this.data.wfil.receive) > parseFloat(this.wfilBalance.data.formatted).toFixed(10)) {
         this.data.wfil.receive = parseFloat(this.wfilBalance.data.formatted).toFixed(10)
       }
@@ -411,23 +431,24 @@ export default {
           _this.voteResuleOk = false
           _this.voteResuleFailMes = ''
         }, 3000)
-          }).on("error", function (error) {
+      }).on("error", function (error) {
 
         _this.voteResuleFailMes = error.message
         _this.voteResuleFail = true
         _this.voteResuleOk = false
-            setTimeout(() => {
-              _this.voteResuleFail = false
-              _this.voteResuleOk = false
-              _this.voteResuleFailMes = ''
-            }, 3000)
+        setTimeout(() => {
+          _this.voteResuleFail = false
+          _this.voteResuleOk = false
+          _this.voteResuleFailMes = ''
+        }, 3000)
       });
     },
     unwrap() {
       let _this = this
       const contract = new this.innerWeb3.eth.Contract(WFILABI.abi, this.contractAddress);
       contract.methods.withdraw(Web3.utils.toWei(this.data.wfil.receive.toString(), "ether"))
-          .send({from: this.address,
+          .send({
+            from: this.address,
             data: Web3.utils.toWei(this.data.wfil.receive.toString(), "ether")
           })
           .on('receipt', (receipt) => {
@@ -441,23 +462,23 @@ export default {
             }, 3000)
           }).on("error", function (error) {
 
-            _this.voteResuleFailMes = error.message
-            _this.voteResuleFail = true
-            _this.voteResuleOk = false
-            setTimeout(() => {
-              _this.voteResuleFail = false
-              _this.voteResuleOk = false
-              _this.voteResuleFailMes = ''
-            }, 3000)
+        _this.voteResuleFailMes = error.message
+        _this.voteResuleFail = true
+        _this.voteResuleOk = false
+        setTimeout(() => {
+          _this.voteResuleFail = false
+          _this.voteResuleOk = false
+          _this.voteResuleFailMes = ''
+        }, 3000)
       });
     },
     gotoBrowser() {
       window.location.href = `https://explorer.glif.io/address/${this.contractAddress}/?network=hyperspace`
     },
-    copyAddress(){
+    copyAddress() {
 
       let clipboard = new Clipboard('.copy-text', {
-        text:  () => {
+        text: () => {
           return this.contractAddress
         }
       })
