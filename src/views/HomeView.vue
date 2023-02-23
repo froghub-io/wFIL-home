@@ -341,9 +341,13 @@ export default {
 
     const {data} = useBalance(
         {
-          addressOrName: address
+          addressOrName: address,
+          watch: true,
         })
-    let wfilBalance = useBalance({addressOrName: address, token: this.contractAddress});
+    let wfilBalance = useBalance({
+      addressOrName: address,
+      watch: true,
+      token: this.contractAddress});
     this.balance = data
     this.wfilBalance = wfilBalance
 
