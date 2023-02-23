@@ -1219,3 +1219,46 @@ input[type="number"] {
 .wfil-address-text:hover {
   text-decoration: underline
 }
+
+
+.ok-message-bottom{
+  position: fixed;
+  top: 10vh;
+  left: 50%;
+  right: 50%;
+  transform: translateX(-50%);
+  min-width: 400px;
+  background-color: #52c465;
+  z-index: 1999;
+  text-align: center;
+  height: 45px;
+  color: white;
+  font-size: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  border-radius: 45px;
+  box-shadow: 0px 4px 24px 0px rgb(16 27 82 / 20%);
+}
+
+.fail-message-bottom{
+  position: fixed;;
+  top: 10vh;
+  left: 50%;
+  right: 50%;
+  transform: translateX(-50%);
+  min-width: 600px;
+  background-color: #bf2323;
+  z-index: 1999;
+  text-align: center;
+  height: 45px;
+  color: white;
+  font-size: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  border-radius: 45px;
+  box-shadow: 0px 4px 24px 0px rgb(16 27 82 / 20%);
+}

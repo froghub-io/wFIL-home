@@ -58,7 +58,7 @@
 <script>
 import IHeader from '@/components/header/IHeader'
 import IFooter from '@/components/footer/IFooter'
-import {useAccount, useDisconnect} from "vagmi";
+import {useAccount, useDisconnect, useNetwork, useSwitchNetwork} from "vagmi";
 
 export default {
   name: 'App',
@@ -69,7 +69,8 @@ export default {
   data() {
     return {
       address: undefined,
-      disconnect: undefined
+      disconnect: undefined,
+      useSwitchNetwork: undefined
     }
   },
   created() {
@@ -77,6 +78,22 @@ export default {
     this.address = address
     const {disconnect} = useDisconnect();
     this.disconnect = disconnect
+
+    const {chains} = useNetwork();
+    this.chains = chains
+    console.log(this.chains)
+
+    this.useSwitchNetwork = useSwitchNetwork;
+    let net = useSwitchNetwork ({
+      chainId: 1,
+      onError: (e) => {
+        console.log('onError', e)
+      },
+      onSuccess: (e) => {
+        console.log('onSuccess', e)
+      }
+    });
+    console.log(net)
   },
   methods: {
     disconnectFun() {

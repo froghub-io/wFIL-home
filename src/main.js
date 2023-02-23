@@ -9,7 +9,7 @@ import store from './store'
 import App from './App.vue'
 import i18n from '@/assets/language/index'
 
-const {provider, webSocketProvider} = configureChains(
+const {chains, provider, webSocketProvider} = configureChains(
     [filChain],
     [jsonRpcProvider({
         rpc: () => ({
@@ -17,18 +17,9 @@ const {provider, webSocketProvider} = configureChains(
         }),
     }),],
 );
-
 const client = createClient({
     autoConnect: true,
-    connectors: [
-        new InjectedConnector({
-            chains: [filChain],
-            options: {
-                name: 'Injected',
-                shimDisconnect: true,
-            }
-        })
-    ],
+    connectors: [new InjectedConnector({chains})],
     provider,
     webSocketProvider,
 });

@@ -3,7 +3,6 @@
     <div class="container">
       <div class="row justify-content-center flex-column align-content-center align-items-center">
         <h3 class="fw-extra-bold fs-36" style="z-index: 1">{{ $t('home title') }}</h3>
-        <span class="fw-medium fs-18 fs-sm-14" style="z-index: 1">{{ $t('home tips') }}</span>
       </div>
       <div class="row mt-4 justify-content-center">
 
@@ -25,14 +24,16 @@
               SECOND, THERE ARE ALT TOKENS
             </div>
             <div class="fs-16 fw-medium ">
-              When a dApp (decentralized app) is built off of the FILECOIN Blockchain it usually implements its own form of Token.
+              When a dApp (decentralized app) is built off of the FILECOIN Blockchain it usually implements its own form
+              of Token.
             </div>
 
             <div class="fs-24 fw-bold mt-4 ">
               NOW THE FRC-2612 STANDARD
             </div>
             <div class="fs-16 fw-medium ">
-              FRC-2612 is a standard developed after the release of FIL that defines how tokens are transferred and how to keep a consistent record of those transfers among tokens in the Filecoin Network.
+              FRC-2612 is a standard developed after the release of FIL that defines how tokens are transferred and how
+              to keep a consistent record of those transfers among tokens in the Filecoin Network.
             </div>
 
             <div class="fs-24 fw-bold mt-4 ">
@@ -54,7 +55,7 @@
             </div>
           </div>
 
-          <div class="row justify-content-center" v-if="isConnected">
+          <div class="row justify-content-center">
             <div class="col-xl-12 col-lg-12 text-white ">
               <div class="" style="background: linear-gradient(52.01deg, rgb(40, 20, 74) 0%, rgb(81, 42, 150) 100%);
              margin-bottom: -30px; padding: 30px 0 35px 0;border-top-left-radius: 1rem;border-top-right-radius: 1rem">
@@ -67,20 +68,24 @@
                   </div>
                   <div v-if="tabIndex !== 0" class="col-7 col-md-7 p-0 pl-4">
                     <div class="fs-7">WFIL Balance</div>
-                    <div class="fs-5 font-weight-bold">{{ 0.0 }} WFIL</div>
+                    <div class="fs-5 font-weight-bold">
+                      {{ wfilBalance&&wfilBalance.data ? parseFloat(wfilBalance.data.formatted).toFixed(6) || 0 : 0 }} WFIL
+                    </div>
                   </div>
-                  <div class="col-5 col-md-5 p-0 text-right" style="padding-right: 30px!important;">
-                    <div class="p-1 pl-2 pr-3 d-inline-flex"
-                         data-toggle="modal" data-target="#exampleModal"
-                         style="cursor: pointer; border-radius: 50px;background-color: rgba(0, 0, 0, 0.2)">
-                      <div class="ml-1 text-nowrap">
+                  <template v-if="isConnected">
+                    <div class="col-5 col-md-5 p-0 text-right" style="padding-right: 30px!important;">
+                      <div class="p-1 pl-2 pr-3 d-inline-flex"
+                           data-toggle="modal" data-target="#exampleModal"
+                           style="cursor: pointer; border-radius: 50px;background-color: rgba(0, 0, 0, 0.2)">
+                        <div class="ml-1 text-nowrap">
                 <span>
                  <img style="border-radius: 100%; width: 1.5rem;" src="@/assets/images/avatar/default.webp" alt="">
                 </span>
-                        <span class="ml-2 fs-8">{{ simpleAddress }}</span>
+                          <span class="ml-2 fs-8">{{ simpleAddress }}</span>
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  </template>
                 </div>
 
                 <div class="col-12 mt-2">
@@ -90,27 +95,38 @@
                 <div class="d-flex mt-3">
                   <div class="col-6 p-0 pl-4">
                     <div>TOTAL SUPPLY</div>
-                    <div>200,000,000 FIL</div>
+                    <div>{{ totalSupply }} FIL</div>
                   </div>
                   <div class="col-6 p-0 pl-4">
-                    <div>HOLDERS</div>
-                    <div>72,458</div>
+                    <div>FIL PRICE</div>
+                    <div>{{ filPrice }}</div>
                   </div>
                 </div>
 
                 <div class="d-flex align-items-center mt-3">
-                  <div class="col-12 p-0 pl-4" >
-                    <div class="pl-3 pt-1 pb-1 pr-3 mr-4" style="cursor: pointer; border-radius: 50px;background-color: rgba(0, 0, 0, 0.2)">
+                  <div class="col-12 p-0 pl-4">
+                    <div class="pl-3 pt-1 pb-1 pr-3 mr-4"
+                         style="cursor: pointer; border-radius: 50px;background-color: rgba(0, 0, 0, 0.2)">
                       <img src="@/assets/images/filecoin-logo.svg" style="width: 16px;" class="mr-1" alt="">
-                      <span class="fs-14"><span class="opacity-08 mr-1">Filecoin:</span> <span @click="gotoBrowser" class="wfil-address-text">
-                        {{simpleContractAddress}}
+                      <span class="fs-14"><span class="opacity-08 mr-1">Filecoin:</span> <span @click="gotoBrowser"
+                                                                                               class="wfil-address-text">
+                        {{ simpleContractAddress }}
                       </span>
                         <span class="ml-2" @click="gotoBrowser">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-link-45deg" viewBox="0 0 16 16">
-                          <path d="M4.715 6.542 3.343 7.914a3 3 0 1 0 4.243 4.243l1.828-1.829A3 3 0 0 0 8.586 5.5L8 6.086a1.002 1.002 0 0 0-.154.199 2 2 0 0 1 .861 3.337L6.88 11.45a2 2 0 1 1-2.83-2.83l.793-.792a4.018 4.018 0 0 1-.128-1.287z"/>
-                          <path d="M6.586 4.672A3 3 0 0 0 7.414 9.5l.775-.776a2 2 0 0 1-.896-3.346L9.12 3.55a2 2 0 1 1 2.83 2.83l-.793.792c.112.42.155.855.128 1.287l1.372-1.372a3 3 0 1 0-4.243-4.243L6.586 4.672z"/>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                               class="bi bi-link-45deg" viewBox="0 0 16 16">
+                          <path
+                              d="M4.715 6.542 3.343 7.914a3 3 0 1 0 4.243 4.243l1.828-1.829A3 3 0 0 0 8.586 5.5L8 6.086a1.002 1.002 0 0 0-.154.199 2 2 0 0 1 .861 3.337L6.88 11.45a2 2 0 1 1-2.83-2.83l.793-.792a4.018 4.018 0 0 1-.128-1.287z"/>
+                          <path
+                              d="M6.586 4.672A3 3 0 0 0 7.414 9.5l.775-.776a2 2 0 0 1-.896-3.346L9.12 3.55a2 2 0 1 1 2.83 2.83l-.793.792c.112.42.155.855.128 1.287l1.372-1.372a3 3 0 1 0-4.243-4.243L6.586 4.672z"/>
                         </svg>
                         </span>
+
+                          <span style="opacity: .8" class="ml-2 cursor-pointer" @click="copyAddress">
+<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-clipboard-fill" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M10 1.5a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-1Zm-5 0A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5v1A1.5 1.5 0 0 1 9.5 4h-3A1.5 1.5 0 0 1 5 2.5v-1Zm-2 0h1v1A2.5 2.5 0 0 0 6.5 5h3A2.5 2.5 0 0 0 12 2.5v-1h1a2 2 0 0 1 2 2V14a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V3.5a2 2 0 0 1 2-2Z"/>
+</svg>                        </span>
+
                       </span>
                     </div>
                   </div>
@@ -132,11 +148,13 @@
                     </div>
                     <div class="position-absolute d-flex justify-content-center align-items-center h-100"
                          style="right: 0;width: 6rem;">
-                      <button type="button" class="btn btn-info btn-sm btn-max" style="padding: 4px 15px;">
+                      <button type="button" class="btn btn-info btn-sm btn-max" style="padding: 4px 15px;"
+                              @click="maxFil">
                         {{ $t("max") }}
                       </button>
                     </div>
                     <input class="form-control shadow-none"
+                           v-on:input="filChange"
                            v-model="data.fil.receive"
                            style="padding: 1rem 6rem 1rem 4rem;appearance:none; height: 60px; font-size: 1.2rem;border-color: #101B5233"
                            type="number" placeholder="0.00" autocomplete="off" id="fname" required=""/>
@@ -151,7 +169,7 @@
                         isConnecting && pendingConnector && connectors[0].id === pendingConnector?.id ? ' (connecting...)' : ''
                       }}
                     </button>
-                    <button v-if="isConnected" class="btn btn-primary w-100" type="submit" @click="wrap">Wrap</button>
+                    <button v-if="isConnected" class="btn btn-primary w-100" type="submit" @click="wrap">Submit</button>
                   </div>
                 </div>
               </div>
@@ -170,12 +188,14 @@
                     </div>
                     <div class="position-absolute d-flex justify-content-center align-items-center h-100"
                          style="right: 0;width: 6rem;">
-                      <button type="button" class="btn btn-info btn-sm btn-max" style="padding: 4px 15px;">
+                      <button type="button" class="btn btn-info btn-sm btn-max" style="padding: 4px 15px;"
+                              @click="maxWFil">
                         {{ $t("max") }}
                       </button>
                     </div>
                     <input class="form-control shadow-none"
-                           v-model="data.fil.receive"
+                           v-on:input="wfilChange"
+                           v-model="data.wfil.receive"
                            style="padding: 1rem 6rem 1rem 4rem;appearance:none; height: 60px; font-size: 1.2rem;border-color: #101B5233"
                            type="number" placeholder="0.00" autocomplete="off" id="fname2" required=""/>
                   </div>
@@ -189,7 +209,8 @@
                         isConnecting && pendingConnector && connectors[0].id === pendingConnector?.id ? ' (connecting...)' : ''
                       }}
                     </button>
-                    <button v-if="isConnected" class="btn btn-primary w-100" type="submit" @click="wrap">Unwrap</button>
+                    <button v-if="isConnected" class="btn btn-primary w-100" type="submit" @click="unwrap">Submit
+                    </button>
                   </div>
                 </div>
               </div>
@@ -221,12 +242,28 @@
 
     </div>
 
+    <div class="ok-message-bottom" v-if="voteResuleOk">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
+           class="bi bi-check-circle-fill mr-2" viewBox="0 0 16 16">
+        <path
+            d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+      </svg>
+      Submit Success
+    </div>
 
+    <div class="fail-message-bottom" v-if="voteResuleFail">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
+           class="bi bi-dash-circle-fill mr-2" viewBox="0 0 16 16">
+        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM4.5 7.5a.5.5 0 0 0 0 1h7a.5.5 0 0 0 0-1h-7z"/>
+      </svg>
+      {{ voteResuleFailMes }}
+    </div>
   </section>
 </template>
 
 <script>
-import {useAccount, useBalance, useConnect, useClient} from "vagmi";
+import Clipboard from 'clipboard';
+import {useAccount, useBalance, useConnect} from "vagmi";
 import SlideTabs from '@/components/SlideTabs'
 import Web3 from "web3";
 import WFILABI from '@/assets/WFIL.json'
@@ -236,6 +273,9 @@ export default {
   components: {SlideTabs},
   data() {
     return {
+      voteResuleOk:false,
+      voteResuleFail:false,
+      voteResuleFailMes: '',
       tabIndex: 0,
       connect: undefined,
       connectors: [],
@@ -245,6 +285,8 @@ export default {
       address: undefined,
       isConnected: undefined,
       balance: undefined,
+      wfilBalance: undefined,
+      innerWeb3: undefined,
       data: {
         fil: {
           receive: ''
@@ -275,7 +317,9 @@ export default {
           name: 'Compatibility',
           content: 'WFIL will support the upcoming FRC-46 standard',
         },
-      ]
+      ],
+      totalSupply: 0,
+      filPrice: 0
     }
   },
   created() {
@@ -295,37 +339,30 @@ export default {
     this.address = address
     this.isConnected = isConnected
 
-    const {data: balance} = useBalance(
+    const {data} = useBalance(
         {
           addressOrName: address
         })
-    this.balance = balance
+    let wfilBalance = useBalance({addressOrName: address, token: this.contractAddress});
+    this.balance = data
+    this.wfilBalance = wfilBalance
 
+    this.getFilPrice()
   },
   mounted() {
-    var client = useClient();
-    console.log(client.value)
-    const _web3 = new Web3(Web3.givenProvider);
-    console.log(window.web3.currentProvider)
-
-    console.log(this.address)
-    _web3.eth.getBalance(this.address, (err, wei) => {
-      console.log(wei)
+    this.innerWeb3 = new Web3(Web3.givenProvider)
+    const contract = new this.innerWeb3.eth.Contract(WFILABI.abi, this.contractAddress);
+    contract.methods.totalSupply().call((err, result) => {
+      this.totalSupply = Web3.utils.fromWei(result)
     })
-
-
-    // this.tans(_web3)
   },
   methods: {
-    async tans(_web3){
-      const contract = new _web3.eth.Contract(WFILABI.abi, this.contractAddress);
-
-
-      contract.methods.deposit().send({from: this.address, value: Web3.utils.toWei("1","ether")})
-      .on('receipt' , (receipt) => {
-        console.log(receipt)
+    getFilPrice() {
+      let url = "https://api.binance.com/api/v3/ticker/price?symbol=FILUSDT"
+      fetch(url).then(async res => {
+        let data = await res.json();
+        this.filPrice = data['price']
       })
-
     },
     selectTab(v) {
       this.tabIndex = v
@@ -334,13 +371,91 @@ export default {
       if (this.isConnecting && this.pendingConnector && this.connectors[0].id === this.pendingConnector?.id) {
         return
       }
-      this.connect(this.connectors[0])
+      this.connect({
+        chainId: 3141,
+        connector: this.connectors[0]
+      })
+    },
+    maxFil() {
+      this.data.fil.receive = parseFloat(this.balance.formatted).toFixed(10)
+    },
+    maxWFil() {
+      this.data.wfil.receive = parseFloat(this.wfilBalance.data.formatted).toFixed(10)
+    },
+    filChange() {
+      if (parseFloat(this.data.fil.receive) > parseFloat(this.balance.formatted).toFixed(10)) {
+        this.data.fil.receive = parseFloat(this.balance.formatted).toFixed(10)
+      }
+    },
+    wfilChange() {
+      if (parseFloat(this.data.wfil.receive) > parseFloat(this.wfilBalance.data.formatted).toFixed(10)) {
+        this.data.wfil.receive = parseFloat(this.wfilBalance.data.formatted).toFixed(10)
+      }
     },
     wrap() {
+      let _this = this
+      const contract = new this.innerWeb3.eth.Contract(WFILABI.abi, this.contractAddress);
+      contract.methods.deposit().send({
+        from: this.address,
+        value: Web3.utils.toWei(this.data.fil.receive.toString(), "ether")
+      }).on('receipt', (receipt) => {
+        console.log(receipt)
+        _this.voteResuleFail = false
+        _this.voteResuleOk = true
+        setTimeout(() => {
+          _this.voteResuleFail = false
+          _this.voteResuleOk = false
+          _this.voteResuleFailMes = ''
+        }, 3000)
+          }).on("error", function (error) {
 
+        _this.voteResuleFailMes = error.message
+        _this.voteResuleFail = true
+        _this.voteResuleOk = false
+            setTimeout(() => {
+              _this.voteResuleFail = false
+              _this.voteResuleOk = false
+              _this.voteResuleFailMes = ''
+            }, 3000)
+      });
     },
-    gotoBrowser(){
+    unwrap() {
+      let _this = this
+      const contract = new this.innerWeb3.eth.Contract(WFILABI.abi, this.contractAddress);
+      contract.methods.withdraw(Web3.utils.toWei(this.data.wfil.receive.toString(), "ether"))
+          .send({from: this.address,
+            data: Web3.utils.toWei(this.data.wfil.receive.toString(), "ether")
+          })
+          .on('receipt', (receipt) => {
+            console.log(receipt)
+            _this.voteResuleFail = false
+            _this.voteResuleOk = true
+            setTimeout(() => {
+              _this.voteResuleFail = false
+              _this.voteResuleOk = false
+              _this.voteResuleFailMes = ''
+            }, 3000)
+          }).on("error", function (error) {
+
+            _this.voteResuleFailMes = error.message
+            _this.voteResuleFail = true
+            _this.voteResuleOk = false
+            setTimeout(() => {
+              _this.voteResuleFail = false
+              _this.voteResuleOk = false
+              _this.voteResuleFailMes = ''
+            }, 3000)
+      });
+    },
+    gotoBrowser() {
       window.location.href = `https://explorer.glif.io/address/${this.contractAddress}/?network=hyperspace`
+    },
+    copyAddress(){
+      new Clipboard('.tag',{
+        text:  () => {
+          return this.contractAddress
+        }
+      })
     }
   },
   computed: {
@@ -354,7 +469,7 @@ export default {
       if (!this.contractAddress) {
         return ''
       }
-      return this.contractAddress.toString().substring(0, 15) + '...' + this.contractAddress.toString().substring(this.contractAddress.length - 10)
+      return this.contractAddress.toString().substring(0, 10) + '...' + this.contractAddress.toString().substring(this.contractAddress.length - 10)
     }
   }
 }
