@@ -7,6 +7,9 @@
         </a>
 
           <div class="d-flex align-items-center align-content-center">
+            <div class="mr-4 cursor-pointer fw-bold fs-16 wfil-address-text" @click="gotoGit">
+              GITHUB
+            </div>
             <div class="mr-4 cursor-pointer fw-bold fs-16 wfil-address-text" @click="gotoDocs">
               DOCS
             </div>
@@ -122,7 +125,10 @@ export default {
       })
     },
     gotoDocs(){
-      window.location.href = `https://docs.froghub.io/wfil`
+      window.location.href = `https://docs.froghub.io/wfil/overview`
+    },
+    gotoGit(){
+      window.location.href = `https://github.com/froghub-io/wfil`
     },
     checkMenu(menu) {
       let {link} = menu

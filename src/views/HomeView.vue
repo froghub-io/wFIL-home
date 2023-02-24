@@ -234,7 +234,7 @@
           <div v-for="(tab, index) in tablist" :key="index" class="col-lg-6 col-md-12">
             <div class="text-center p-0 p-md-2 mb-30" data-aos="fade-up">
               <div class="has-text-color h2">
-                <img src="@/assets/images/icons/w.png" alt="" style="height: 60px; width: 60px;">
+                <img :src="tab.icon" alt="" style="height: 60px; width: 60px;">
               </div>
               <h5 class="mt-20 mb-15 fw-extra-bold fs-18">{{ tab.name }}</h5>
               <p class="fs-16" style="opacity: .6;">{{ tab.content }}</p>
@@ -303,21 +303,25 @@ export default {
         {
           id: 'TaskManagement',
           name: 'ERC-2612',
+          icon: '/images/icons/ioc1.png',
           content: 'WFIL is a wrapper token that features a 1:1 peg ratio to FIL and uses the ERC-2612 token standard instead.',
         },
         {
           id: 'Decentralized',
           name: 'Decentralized',
+          icon: '/images/icons/ioc2.png',
           content: 'You can use a decentralized exchange (similar to Uniswap on ETH) to wrap/ unwrap FIL directly',
         },
         {
           id: 'Interoperability',
           name: 'Flash Loan',
+          icon: '/images/icons/ioc3.png',
           content: 'Allows you to flashLoan an arbitrary amount of Wrapped FIL, unbacked by real FIL, with the condition that it is burned before the end of the transaction. No fees are charged.',
         },
         {
           id: 'Compatibility',
           name: 'Compatibility',
+          icon: '/images/icons/ioc4.png',
           content: 'WFIL will support the upcoming FRC-46 standard',
         },
       ],
@@ -492,7 +496,7 @@ export default {
       });
     },
     gotoBrowser() {
-      window.location.href = `https://explorer.glif.io/address/${this.contractAddress}/?network=hyperspace`
+      window.open(`https://explorer.glif.io/address/${this.contractAddress}/?network=hyperspace`)
     },
     copyAddress() {
 
