@@ -304,7 +304,7 @@ export default {
           id: 'TaskManagement',
           name: 'ERC-2612',
           icon: '/images/icons/ioc1.png',
-          content: 'WFIL is a wrapper token that features a 1:1 peg ratio to FIL and uses the ERC-2612 token standard instead.',
+          content: 'wFIL is a wrapper token that features a 1:1 peg ratio to FIL and uses the ERC-2612 token standard instead.',
         },
         {
           id: 'Decentralized',
@@ -322,7 +322,7 @@ export default {
           id: 'Compatibility',
           name: 'Compatibility',
           icon: '/images/icons/ioc4.png',
-          content: 'WFIL will support the upcoming FRC-46 standard',
+          content: 'wFIL will support the upcoming FRC-46 standard',
         },
       ],
       totalSupply: 0,
