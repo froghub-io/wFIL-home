@@ -125,10 +125,10 @@ export default {
       })
     },
     gotoDocs(){
-      window.location.href = `https://docs.froghub.io/wfil/overview`
+      window.open('http://localhost:1313/wfil/overview/what-is-wrapped-filecoin-wfil')
     },
     gotoGit(){
-      window.location.href = `https://github.com/froghub-io/wfil`
+      window.open('https://github.com/froghub-io/wfil')
     },
     checkMenu(menu) {
       let {link} = menu
