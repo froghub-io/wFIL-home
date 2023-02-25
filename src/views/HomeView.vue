@@ -186,7 +186,7 @@
                     <div class="position-absolute d-flex justify-content-center align-items-center h-100"
                          style="left: 0;z-index: 100; width: 4rem; ">
                       <div style="width: 1.8rem;">
-                        <img src="@/assets/images/filecoin-logo.svg" alt="">
+                        <img src="@/assets/images/wf1@2x.png" style="width: 30px;height: 30px;"  alt="">
                       </div>
                     </div>
                     <div class="position-absolute d-flex justify-content-center align-items-center h-100"
