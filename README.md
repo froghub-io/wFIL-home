@@ -1,6 +1,14 @@
-# wfil-home
+![wfil-website](https://storage.froghub.io/team-1578700264406253568-default/wfil.png)
 
-## Project setup
+Welcome to the source file repository of the wFIL website. The smart contract of wFIL is [here](https://github.com/froghub-io/wFIL)
+---
+
+
+# wFIL - Wrapped Filecoin Console
+
+Introduction to WFIL and the user's tools
+
+## Building
 ```
 yarn install
 ```
@@ -20,5 +28,12 @@ yarn build
 yarn lint
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## Contact us
+
+- [Slack](https://froghub.slack.com/)
+- Email：  team@froghub.com
+
+
+## License
+
+Licensed under [Apache 2.0](https://github.com/froghub-io/wfil-home/blob/main/LICENSE)
