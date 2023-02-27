@@ -3,7 +3,7 @@
     <div class="container">
       <nav class="navbar navbar-expand-xl navbar-light px-0 d-flex justify-content-between">
         <a class="navbar-brand p-0 fw-extra-bold fs-30" href="#">
-          W<span class="" style="border: 4px solid #101B52">FIL</span>
+          w<span class="" style="border: 4px solid #101B52">FIL</span>
         </a>
 
           <div class="d-flex align-items-center align-content-center">
