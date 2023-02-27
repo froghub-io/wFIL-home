@@ -86,7 +86,8 @@ export default {
     let web3modal = new Web3Modal(
         {
           projectId: "ec217442a0dcd42b786be90246dfdb30",
-          themeZIndex: 9999
+          themeZIndex: 9999,
+          themeColor: 'blackWhite'
         },
         ethereumClient
     )
