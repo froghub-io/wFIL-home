@@ -6,54 +6,30 @@
           w<span class="" style="border: 4px solid #101B52">FIL</span>
         </a>
 
-          <div class="d-flex align-items-center align-content-center">
-            <div class="mr-4 cursor-pointer fw-bold fs-16 wfil-address-text" @click="gotoGit">
-              GITHUB
-            </div>
-            <div class="mr-4 cursor-pointer fw-bold fs-16 wfil-address-text" @click="gotoDocs">
-              DOCS
-            </div>
-            <div style="height: 25px; width: 1px; background-color: #d0d0d0" class="mr-4"></div>
-            <div>
-              <div class="border p-1 pl-lg-4 pr-lg-4" data-toggle="modal" data-target="#netWorkModal"
-                   style="cursor: pointer; border-radius: 50px;border-color: #34b4db!important;">
-                <div class="ml-1">
-            <span>
-                  <img :src="chainsMap[chain?.id].img" alt="" style="width: 20px; height: 20px; margin-right: 5px;">
-                </span>
-                  <span class="fw-medium fs-12 ml-1 d-lg-inline d-none">{{ chainsMap[chain?.id].name }}</span>
-                </div>
-              </div>
-            </div>
+        <div class="d-flex align-items-center align-content-center">
+          <div class="mr-4 cursor-pointer fw-bold fs-16 wfil-address-text" @click="gotoGit">
+            GITHUB
           </div>
+          <div class="mr-4 cursor-pointer fw-bold fs-16 wfil-address-text" @click="gotoDocs">
+            DOCS
+          </div>
+          <div style="height: 25px; width: 1px; background-color: #d0d0d0" class="mr-4 d-md-block d-none"></div>
+          <div class="d-md-block d-none">
+            <w3m-network-switch></w3m-network-switch>
+          </div>
+        </div>
 
-        <!--        <div class="d-flex flex-row justify-content-center" v-if="!address">-->
-        <!--          <button class="btn btn-sm btn-outline-primary" data-toggle="modal" @click="connectWallet"-->
-        <!--                  data-target="#signup-modal">连接钱包 {{-->
-        <!--              isConnecting && pendingConnector && connectors[0].id === pendingConnector?.id ? ' (connecting...)' : ''-->
-        <!--            }}-->
-        <!--          </button>-->
-        <!--        </div>-->
-        <!--        <div class="d-flex flex-row justify-content-center" v-if="address">-->
-        <!--          <div class="border p-1 pl-2 pr-2"-->
-        <!--               data-toggle="modal" data-target="#exampleModal"-->
-        <!--               style="cursor: pointer; border-radius: 50px;background-color: white;">-->
-        <!--            <div class="ml-1">-->
-        <!--            <span>-->
-        <!--                  <img style="border-radius: 100%; width: 28px;" src="@/assets/images/avatar/default.webp" alt="">-->
-        <!--                </span>-->
-        <!--              <span class="ml-2" style="margin-top: 10px">{{ simpleAddress }}</span>-->
-        <!--            </div>-->
-        <!--          </div>-->
-        <!--        </div>-->
       </nav>
     </div>
   </header>
 </template>
 
 <script>
-import {useAccount, useConnect, useNetwork} from 'vagmi';
 import {chainsMap} from "@/utils/model";
+import {configureChains, createClient} from "@wagmi/core";
+import {filChain} from "@/utils/filChain";
+import {EthereumClient, modalConnectors, walletConnectProvider} from "@web3modal/ethereum";
+import {Web3Modal} from "@web3modal/html";
 
 export default {
   name: "IHeader",
@@ -92,42 +68,40 @@ export default {
     }
   },
   created() {
-    const {
-      connect,
-      connectors,
-      isConnecting,
-      pendingConnector,
-      activeConnector
-    } = useConnect();
-    this.connect = connect
-    this.connectors = connectors
-    this.isConnecting = isConnecting
-    this.pendingConnector = pendingConnector
-    this.activeConnector = activeConnector
+    const chains = [filChain];
+    const {provider} = configureChains(chains, [
+      walletConnectProvider({projectId: "ec217442a0dcd42b786be90246dfdb30"}),
+    ]);
+    this.wagmiClient = createClient({
+      autoConnect: true,
+      connectors: modalConnectors({
+        projectId: "ec217442a0dcd42b786be90246dfdb30",
+        version: "2", // or "2"
+        appName: "web3Modal",
+        chains,
+      }),
+      provider,
+    })
+    const ethereumClient = new EthereumClient(this.wagmiClient, chains);
+    let web3modal = new Web3Modal(
+        {
+          projectId: "ec217442a0dcd42b786be90246dfdb30",
+          themeZIndex: 9999
+        },
+        ethereumClient
+    )
 
-    const {address} = useAccount();
-    this.address = address
+    this.$store.commit('SET_WEB3MODAL', web3modal)
 
-    const {chain, chains} = useNetwork();
-    this.chain = chain
-    console.log(this.chain)
-    this.chains = chains
-    console.log('this.chains', this.chains)
+    ethereumClient.watchAccount(() => {
+      this.$store.dispatch('initAccount')
+    })
   },
   methods: {
-    connectWallet() {
-      if (this.isConnecting && this.pendingConnector && this.connectors[0].id === this.pendingConnector?.id) {
-        return
-      }
-      this.connect({
-        chainId: 3141,
-        connector: this.connectors[0]
-      })
-    },
-    gotoDocs(){
+    gotoDocs() {
       window.open('https://docs.froghub.io/wfil/overview')
     },
-    gotoGit(){
+    gotoGit() {
       window.open('https://github.com/froghub-io/wfil')
     },
     checkMenu(menu) {

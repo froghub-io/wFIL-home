@@ -62,26 +62,27 @@
                 <div class="d-flex align-items-center">
                   <div v-if="tabIndex === 0" class="col-7 col-md-7 p-0 pl-4">
                     <div class="fs-7">FIL Balance</div>
-                    <div class="fs-5 font-weight-bold">{{ balance ? parseFloat(balance.formatted).toFixed(6) || 0 : 0 }}
+                    <div class="fs-5 font-weight-bold">{{ balance ? parseFloat(balance).toFixed(6) || 0 : 0 }}
                       FIL
                     </div>
                   </div>
                   <div v-if="tabIndex !== 0" class="col-7 col-md-7 p-0 pl-4">
                     <div class="fs-7">WFIL Balance</div>
                     <div class="fs-5 font-weight-bold">
-                      {{ wfilBalance && wfilBalance.data ? parseFloat(wfilBalance.data.formatted).toFixed(6) || 0 : 0 }}
+                      {{ wfilBalance ? parseFloat(wfilBalance).toFixed(4) || 0 : 0 }}
                       WFIL
                     </div>
                   </div>
                   <template v-if="isConnected">
                     <div class="col-5 col-md-5 p-0 text-right" style="padding-right: 30px!important;">
                       <div class="p-1 pl-2 pr-3 d-inline-flex"
-                           data-toggle="modal" data-target="#exampleModal"
+                           @click="showAccount"
                            style="cursor: pointer; border-radius: 50px;background-color: rgba(0, 0, 0, 0.2)">
                         <div class="ml-1 text-nowrap">
-                <span>
-                 <img style="border-radius: 100%; width: 1.5rem;" src="@/assets/images/avatar/default.webp" alt="">
-                </span>
+                          <span>
+                           <img style="border-radius: 100%; width: 1.5rem;" src="@/assets/images/avatar/default.webp"
+                                alt="">
+                          </span>
                           <span class="ml-2 fs-8">{{ simpleAddress }}</span>
                         </div>
                       </div>
@@ -96,7 +97,7 @@
                 <div class="d-flex mt-3">
                   <div class="col-6 p-0 pl-4">
                     <div>TOTAL SUPPLY</div>
-                    <div>{{ totalSupply }} FIL</div>
+                    <div>{{ parseFloat(totalSupply).toFixed(4) }} FIL</div>
                   </div>
                   <div class="col-6 p-0 pl-4">
                     <div>FIL PRICE</div>
@@ -186,7 +187,7 @@
                     <div class="position-absolute d-flex justify-content-center align-items-center h-100"
                          style="left: 0;z-index: 100; width: 4rem; ">
                       <div style="width: 1.8rem;">
-                        <img src="@/assets/images/wf1@2x.png" style="width: 30px;height: 30px;"  alt="">
+                        <img src="@/assets/images/wf1@2x.png" style="width: 30px;height: 30px;" alt="">
                       </div>
                     </div>
                     <div class="position-absolute d-flex justify-content-center align-items-center h-100"
@@ -208,9 +209,6 @@
                   <div class="mt-4">
                     <button v-if="!isConnected" class="btn btn-primary w-100" type="submit" @click="connectWallet">
                       {{ $t('connect-wallet') }}
-                      {{
-                        isConnecting && pendingConnector && connectors[0].id === pendingConnector?.id ? ' (connecting...)' : ''
-                      }}
                     </button>
                     <button v-if="isConnected" class="btn btn-primary w-100" type="submit" @click="unwrap">Submit
                     </button>
@@ -266,9 +264,9 @@
 
 <script>
 import Clipboard from 'clipboard';
-import {useAccount, useBalance, useConnect} from "vagmi";
 import SlideTabs from '@/components/SlideTabs'
-import Web3 from "web3";
+import {prepareWriteContract, writeContract} from "@wagmi/core";
+import {ethers} from "ethers";
 import WFILABI from '@/assets/WFIL.json'
 
 export default {
@@ -280,15 +278,6 @@ export default {
       voteResuleFail: false,
       voteResuleFailMes: '',
       tabIndex: 0,
-      connect: undefined,
-      connectors: [],
-      isConnecting: false,
-      pendingConnector: undefined,
-      activeConnector: undefined,
-      address: undefined,
-      isConnected: undefined,
-      balance: undefined,
-      wfilBalance: undefined,
       innerWeb3: undefined,
       data: {
         fil: {
@@ -325,62 +314,31 @@ export default {
           content: 'wFIL will support the upcoming FRC-46 standard',
         },
       ],
-      totalSupply: 0,
       filPrice: 0
     }
   },
   created() {
-    const {
-      connect,
-      connectors,
-      isConnecting,
-      pendingConnector,
-      activeConnector
-    } = useConnect();
-    this.connect = connect
-    this.connectors = connectors
-    this.isConnecting = isConnecting
-    this.pendingConnector = pendingConnector
-    this.activeConnector = activeConnector
-    const {address, isConnected} = useAccount();
-    this.address = address
-    this.isConnected = isConnected
-
-    const {data} = useBalance(
-        {
-          addressOrName: address,
-          watch: true,
-        })
-    let wfilBalance = useBalance({
-      addressOrName: address,
-      watch: true,
-      token: this.contractAddress
-    });
-    this.balance = data
-    this.wfilBalance = wfilBalance
-
     this.getFilPrice()
   },
   mounted() {
-    console.log('Web3.givenProvider',Web3.givenProvider)
-    this.innerWeb3 = new Web3(Web3.givenProvider)
-    this.initTotalSupply()
+    this.$store.dispatch('initAccount')
     this.interval()
   },
   methods: {
-    interval(){
+    connectWallet() {
+      this.web3modal.openModal()
+    },
+    showAccount() {
+      console.log('showAccount', this.web3modal)
+      this.web3modal.openModal('Account')
+    },
+    interval() {
       setTimeout(() => {
         console.log('interval')
-        this.initTotalSupply()
+        this.$store.dispatch('initAccount')
         this.getFilPrice()
         this.interval()
       }, 30000)
-    },
-    initTotalSupply(){
-      const contract = new this.innerWeb3.eth.Contract(WFILABI.abi, this.contractAddress);
-      contract.methods.totalSupply().call((err, result) => {
-        this.totalSupply = Web3.utils.fromWei(result)
-      })
     },
     getFilPrice() {
       let url = "https://api.binance.com/api/v3/ticker/price?symbol=FILUSDT"
@@ -392,20 +350,11 @@ export default {
     selectTab(v) {
       this.tabIndex = v
     },
-    connectWallet() {
-      if (this.isConnecting && this.pendingConnector && this.connectors[0].id === this.pendingConnector?.id) {
-        return
-      }
-      this.connect({
-        chainId: 3141,
-        connector: this.connectors[0]
-      })
-    },
     maxFil() {
-      this.data.fil.receive = parseFloat(this.balance.formatted).toFixed(10)
+      this.data.fil.receive = parseFloat(this.balance).toFixed(10)
     },
     maxWFil() {
-      this.data.wfil.receive = parseFloat(this.wfilBalance.data.formatted).toFixed(10)
+      this.data.wfil.receive = parseFloat(this.wfilBalance).toFixed(10)
     },
     filChange() {
       if (this.data.fil.receive.toString().indexOf('-') >= 0 || this.data.fil.receive.toString().indexOf('e') >= 0) {
@@ -416,8 +365,8 @@ export default {
         this.data.fil.receive = 0
         return
       }
-      if (parseFloat(this.data.fil.receive) > parseFloat(this.balance.formatted).toFixed(10)) {
-        this.data.fil.receive = parseFloat(this.balance.formatted).toFixed(10)
+      if (parseFloat(this.data.fil.receive) > parseFloat(this.balance).toFixed(10)) {
+        this.data.fil.receive = parseFloat(this.balance).toFixed(10)
       }
     },
     wfilChange() {
@@ -429,72 +378,163 @@ export default {
         this.data.wfil.receive = 0
         return
       }
-      if (parseFloat(this.data.wfil.receive) > parseFloat(this.wfilBalance.data.formatted).toFixed(10)) {
-        this.data.wfil.receive = parseFloat(this.wfilBalance.data.formatted).toFixed(10)
+      if (parseFloat(this.data.wfil.receive) > parseFloat(this.wfilBalance).toFixed(10)) {
+        this.data.wfil.receive = parseFloat(this.wfilBalance).toFixed(10)
       }
     },
-    wrap() {
+    async wrap() {
       let receive = this.data.fil.receive
+      if (receive === '' || receive === undefined || receive === null || receive <= 0) {
+        return
+      }
       this.data.fil.receive = ''
-      let _this = this
-      const contract = new this.innerWeb3.eth.Contract(WFILABI.abi, this.contractAddress);
-      contract.methods.deposit().send({
-        from: this.address,
-        value: Web3.utils.toWei(receive.toString(), "ether")
-      }).on('receipt', (receipt) => {
-        this.initTotalSupply()
-        console.log(receipt)
-        _this.voteResuleFail = false
-        _this.voteResuleOk = true
-        setTimeout(() => {
-          _this.voteResuleFail = false
-          _this.voteResuleOk = false
-          _this.voteResuleFailMes = ''
-        }, 3000)
-      }).on("error", function (error) {
 
-        _this.voteResuleFailMes = error.message
-        _this.voteResuleFail = true
-        _this.voteResuleOk = false
-        setTimeout(() => {
-          _this.voteResuleFail = false
-          _this.voteResuleOk = false
-          _this.voteResuleFailMes = ''
-        }, 3000)
-      });
+      const config = await prepareWriteContract({
+        address: this.$store.state.contractAddress,
+        abi: WFILABI.abi,
+        functionName: 'deposit',
+        overrides: {
+          from: this.address,
+          value: ethers.utils.parseEther(receive.toString()),
+        },
+      })
+      try {
+        const data = await writeContract(config)
+        data.wait().then(res => {
+          console.log('ok', res)
+          this.$store.dispatch('initAccount')
+          this.voteResuleFail = false
+          this.voteResuleOk = true
+          setTimeout(() => {
+            this.voteResuleFail = false
+            this.voteResuleOk = false
+            this.voteResuleFailMes = ''
+          }, 3000)
+        }).catch(er => {
+          console.log(er)
+          this.voteResuleFailMes = er.message
+          this.voteResuleFail = true
+          this.voteResuleOk = false
+          setTimeout(() => {
+            this.voteResuleFail = false
+            this.voteResuleOk = false
+            this.voteResuleFailMes = ''
+          }, 3000)
+
+        })
+      } catch (e) {
+        console.log(e)
+      }
+      // let receive = this.data.fil.receive
+      // this.data.fil.receive = ''
+      // let _this = this
+      // const contract = new this.innerWeb3.eth.Contract(WFILABI.abi, this.contractAddress);
+      // contract.methods.deposit().send({
+      //   from: this.address,
+      //   value: Web3.utils.toWei(receive.toString(), "ether")
+      // }).on('receipt', (receipt) => {
+      //   this.initTotalSupply()
+      //   console.log(receipt)
+      //   _this.voteResuleFail = false
+      //   _this.voteResuleOk = true
+      //   setTimeout(() => {
+      //     _this.voteResuleFail = false
+      //     _this.voteResuleOk = false
+      //     _this.voteResuleFailMes = ''
+      //   }, 3000)
+      // }).on("error", function (error) {
+      //
+      //   _this.voteResuleFailMes = error.message
+      //   _this.voteResuleFail = true
+      //   _this.voteResuleOk = false
+      //   setTimeout(() => {
+      //     _this.voteResuleFail = false
+      //     _this.voteResuleOk = false
+      //     _this.voteResuleFailMes = ''
+      //   }, 3000)
+      // });
     },
-    unwrap() {
+    async unwrap() {
       let receive = this.data.wfil.receive
+      if (receive === '' || receive === undefined || receive === null || receive <= 0) {
+        return
+      }
 
-      let _this = this
-      const contract = new this.innerWeb3.eth.Contract(WFILABI.abi, this.contractAddress);
-      contract.methods.withdraw(Web3.utils.toWei(receive.toString(), "ether"))
-          .send({
-            from: this.address,
-            data: Web3.utils.toWei(receive.toString(), "ether")
-          })
-          .on('receipt', (receipt) => {
-            this.data.wfil.receive = ''
-            this.initTotalSupply()
-            console.log(receipt)
-            _this.voteResuleFail = false
-            _this.voteResuleOk = true
-            setTimeout(() => {
-              _this.voteResuleFail = false
-              _this.voteResuleOk = false
-              _this.voteResuleFailMes = ''
-            }, 3000)
-          }).on("error", function (error) {
+      const config = await prepareWriteContract({
+        address: this.$store.state.contractAddress,
+        abi: WFILABI.abi,
+        functionName: 'withdraw',
+        overrides: {
+          from: this.address
+        },
+        args: [ethers.utils.parseEther(receive.toString())]
+      })
+      try {
+        const data = await writeContract(config)
+        data.wait().then(res => {
+          console.log('ok', res)
+          this.data.wfil.receive = ''
+          this.$store.dispatch('initAccount')
+          this.voteResuleFail = false
+          this.voteResuleOk = true
+          setTimeout(() => {
+            this.voteResuleFail = false
+            this.voteResuleOk = false
+            this.voteResuleFailMes = ''
+          }, 3000)
+        }).catch(er => {
+          console.log(er)
 
-        _this.voteResuleFailMes = error.message
-        _this.voteResuleFail = true
-        _this.voteResuleOk = false
+          this.voteResuleFailMes = er.message
+          this.voteResuleFail = true
+          this.voteResuleOk = false
+          setTimeout(() => {
+            this.voteResuleFail = false
+            this.voteResuleOk = false
+            this.voteResuleFailMes = ''
+          }, 3000)
+
+        })
+      } catch (e) {
+        this.voteResuleFailMes = e.message
+        this.voteResuleFail = true
+        this.voteResuleOk = false
         setTimeout(() => {
-          _this.voteResuleFail = false
-          _this.voteResuleOk = false
-          _this.voteResuleFailMes = ''
+          this.voteResuleFail = false
+          this.voteResuleOk = false
+          this.voteResuleFailMes = ''
         }, 3000)
-      });
+      }
+
+      // let _this = this
+      // const contract = new this.innerWeb3.eth.Contract(WFILABI.abi, this.contractAddress);
+      // contract.methods.withdraw(Web3.utils.toWei(receive.toString(), "ether"))
+      //     .send({
+      //       from: this.address,
+      //       data: Web3.utils.toWei(receive.toString(), "ether")
+      //     })
+      //     .on('receipt', (receipt) => {
+      //       this.data.wfil.receive = ''
+      //       this.initTotalSupply()
+      //       console.log(receipt)
+      //       _this.voteResuleFail = false
+      //       _this.voteResuleOk = true
+      //       setTimeout(() => {
+      //         _this.voteResuleFail = false
+      //         _this.voteResuleOk = false
+      //         _this.voteResuleFailMes = ''
+      //       }, 3000)
+      //     }).on("error", function (error) {
+      //
+      //   _this.voteResuleFailMes = error.message
+      //   _this.voteResuleFail = true
+      //   _this.voteResuleOk = false
+      //   setTimeout(() => {
+      //     _this.voteResuleFail = false
+      //     _this.voteResuleOk = false
+      //     _this.voteResuleFailMes = ''
+      //   }, 3000)
+      // });
     },
     gotoBrowser() {
       window.open(`https://explorer.glif.io/address/${this.contractAddress}/?network=hyperspace`)
@@ -530,6 +570,27 @@ export default {
         return ''
       }
       return this.contractAddress.toString().substring(0, 8) + '...' + this.contractAddress.toString().substring(this.contractAddress.length - 8)
+    },
+    web3modal() {
+      return this.$store.state.web3modal
+    },
+    balance() {
+      return this.$store.state.balance
+    },
+    address() {
+      return this.$store.state.address
+    },
+    totalSupply() {
+      return this.$store.state.totalSupply
+    },
+    isConnected() {
+      return this.$store.state.isConnected
+    },
+    isConnecting() {
+      return this.$store.state.isConnecting
+    },
+    wfilBalance() {
+      return this.$store.state.wfilBalance
     }
   }
 }

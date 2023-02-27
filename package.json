@@ -8,16 +8,16 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@wagmi/core": "^0.9.7",
+    "@web3modal/ethereum": "^2.1.1",
+    "@web3modal/html": "^2.1.1",
     "clipboard": "^2.0.11",
     "core-js": "^3.8.3",
     "ethers": "^5.7.2",
-    "vagmi": "^0.1.20",
     "vue": "^3.2.13",
     "vue-i18n": "^9.2.2",
     "vue-router": "^4.0.3",
-    "vuex": "^4.0.0",
-    "wagmi": "^0.9.2",
-    "web3": "^1.8.2"
+    "vuex": "^4.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
