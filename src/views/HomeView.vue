@@ -362,6 +362,7 @@ export default {
     this.getFilPrice()
   },
   mounted() {
+    console.log('Web3.givenProvider',Web3.givenProvider)
     this.innerWeb3 = new Web3(Web3.givenProvider)
     this.initTotalSupply()
     this.interval()

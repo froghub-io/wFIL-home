@@ -125,7 +125,7 @@ export default {
       })
     },
     gotoDocs(){
-      window.open('https://docs.froghub.io/wfil/overview/what-is-wrapped-filecoin-wfil')
+      window.open('https://docs.froghub.io/wfil/overview')
     },
     gotoGit(){
       window.open('https://github.com/froghub-io/wfil')
