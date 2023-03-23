@@ -259,15 +259,30 @@
             <span class="section-title fw-extra-bold fs-36">Partners</span>
           </div>
         </div>
-        <div class="row">
-          <div class="col-md-12" data-aos="fade-left">
-            <div class="brand-carousel d-flex align-items-center">
-                <div v-for="(log,index) in logos" :key="index" class="brand-item d-flex align-items-center justify-content-center ml-4">
-                  <img class="img-fluid" :src="log" alt="">
+        <div class="d-none d-md-block">
+          <div class="row ">
+            <div class="col-12" data-aos="fade-left">
+              <div class="brand-carousel-s d-flex align-items-center">
+                <div v-for="(log,index) in logos" :key="index"  class="brand-item d-flex align-items-center justify-content-center ">
+                  <img style="width: 70px" class="img-fluid" :src="log" alt="">
                 </div>
+              </div>
             </div>
           </div>
         </div>
+
+        <div class="d-md-none d-block">
+          <div class="row " v-for="(log,index) in logos" :key="index" >
+            <div class="col-12 mt-2" data-aos="fade-left" :key="index">
+              <div class="brand-carousel-s d-flex align-items-center justify-content-center">
+                <div  class="brand-item d-flex align-items-center justify-content-center " style="margin-left: 0 !important;">
+                  <img style="width: 70px" class="img-fluid" :src="log" alt="">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
   </section>
 </template>
@@ -297,7 +312,7 @@ export default {
           receive: ''
         }
       },
-      logos: ["/images/brands/01-colored.png","/images/brands/02-colored.png","/images/brands/03-colored.png","/images/brands/04-colored.png","/images/brands/05-colored.png"],
+      logos: ["/images/brands/filecoin.png","/images/brands/ipfs.png","/images/brands/protocol labs.png","/images/brands/filecoin_foundation.png","/images/brands/froghub.png","/images/brands/fvm.png","/images/brands/glif.png"],
       tablist: [
         {
           id: 'TaskManagement',

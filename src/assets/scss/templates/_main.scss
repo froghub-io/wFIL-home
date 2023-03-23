@@ -384,17 +384,17 @@
 }
 
 // brand carousel
-.brand-carousel {
+.brand-carousel-s {
   .slick-list {
     margin-left: -17px;
   }
 
   .brand-item {
-    height: 45px;
-    margin-left: 17px;
+    margin-top: 30px;
+    height: 70px;
+    margin-left: 75px;
 
     img {
-      z-index: -1;
       transition: .3s ease-out;
       opacity: .5;
       filter: grayscale(1);

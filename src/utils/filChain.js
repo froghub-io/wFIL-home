@@ -17,7 +17,7 @@ const filTestChain = {
 
 const filChain = {
     id: 314,
-    name: 'Filecoin',
+    name: 'Filecoin - Mainnet',
     network: 'main',
     nativeCurrency: {
         decimals: 18,
