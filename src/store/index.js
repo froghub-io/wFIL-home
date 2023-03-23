@@ -1,6 +1,6 @@
 import {createStore} from 'vuex'
 import {fetchBalance, getAccount, readContract} from "@wagmi/core";
-import WFILABI from "@/assets/WFIL.json";
+import WFILABI from "@/assets/WFIL_metadata.json";
 import {utils} from "ethers";
 
 export default createStore({
@@ -10,12 +10,15 @@ export default createStore({
         isConnected: undefined,
         isConnecting: undefined,
         balance: 0,
-        contractAddress: '0xAf6518f6F370D2f92df657299F7d910548Fb1205',
+        contractAddress: '0x60E1773636CF5E4A227d9AC24F20fEca034ee25A',
         web3modal: undefined,
         wfilBalance: 0
     },
     getters: {},
     mutations: {
+        SET_CONTRACT_ADDRESS(state, {contractAddress}){
+            state.contractAddress = contractAddress
+        },
         SET_WEB3MODAL(state, web3modal) {
             state.web3modal = web3modal
         },
@@ -67,7 +70,7 @@ export default createStore({
         async initTotalSupply({commit, state}) {
             const data = await readContract({
                 address: state.contractAddress,
-                abi: WFILABI.abi,
+                abi: WFILABI.output.abi,
                 functionName: 'totalSupply',
             })
             commit('SET_TOTALSUPPLY', utils.formatEther(data.toString()))

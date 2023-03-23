@@ -1396,3 +1396,7 @@ input[type="number"] {
   color: white;
   border: none;
 }
+
+img {
+  -webkit-user-drag: none;
+}

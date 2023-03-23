@@ -1,4 +1,4 @@
-export const filChain = {
+const filTestChain = {
     id: 3141,
     name: 'Filecoin - Hyperspace',
     network: 'wallaby',
@@ -14,3 +14,22 @@ export const filChain = {
         default: { name: 'SnowTrace', url: 'https://hyperspace.filfox.info/en' },
     },
 }
+
+const filChain = {
+    id: 314,
+    name: 'Filecoin',
+    network: 'main',
+    nativeCurrency: {
+        decimals: 18,
+        name: 'FIL',
+        symbol: 'FIL',
+    },
+    rpcUrls: {
+        default: { http: ['http://api.node.glif.io/'] },
+    },
+    blockExplorers: {
+        default: { name: 'SnowTrace', url: 'https://filfox.info/en' },
+    },
+}
+
+export {filChain,filTestChain}

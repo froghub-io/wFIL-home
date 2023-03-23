@@ -1,0 +1,520 @@
+{
+	"compiler": {
+		"version": "0.8.17+commit.8df45f5f"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_owner",
+						"type": "address"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "constructor"
+			},
+			{
+				"inputs": [],
+				"name": "CallFailed",
+				"type": "error"
+			},
+			{
+				"inputs": [],
+				"name": "InsufficientFunds",
+				"type": "error"
+			},
+			{
+				"inputs": [],
+				"name": "InvalidAddress",
+				"type": "error"
+			},
+			{
+				"inputs": [],
+				"name": "TimelockActive",
+				"type": "error"
+			},
+			{
+				"inputs": [],
+				"name": "Unauthorized",
+				"type": "error"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "owner",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "spender",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "Approval",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "from",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "Deposit",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "currentOwner",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "pendingOwner",
+						"type": "address"
+					}
+				],
+				"name": "OwnershipPending",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "oldOwner",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "newOwner",
+						"type": "address"
+					}
+				],
+				"name": "OwnershipTransferred",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "from",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "to",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "Transfer",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "to",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "Withdrawal",
+				"type": "event"
+			},
+			{
+				"inputs": [],
+				"name": "acceptOwnership",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_owner",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "_spender",
+						"type": "address"
+					}
+				],
+				"name": "allowance",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_spender",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_amount",
+						"type": "uint256"
+					}
+				],
+				"name": "approve",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_a",
+						"type": "address"
+					}
+				],
+				"name": "balanceOf",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "decimals",
+				"outputs": [
+					{
+						"internalType": "uint8",
+						"name": "",
+						"type": "uint8"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "deposit",
+				"outputs": [],
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "name",
+				"outputs": [
+					{
+						"internalType": "string",
+						"name": "",
+						"type": "string"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "owner",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_depositor",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_amount",
+						"type": "uint256"
+					}
+				],
+				"name": "recoverDeposit",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "recoveryTimelock",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "revokeOwnership",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "symbol",
+				"outputs": [
+					{
+						"internalType": "string",
+						"name": "",
+						"type": "string"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "totalSupply",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_to",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_amount",
+						"type": "uint256"
+					}
+				],
+				"name": "transfer",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_owner",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "_to",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_amount",
+						"type": "uint256"
+					}
+				],
+				"name": "transferFrom",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_newOwner",
+						"type": "address"
+					}
+				],
+				"name": "transferOwnership",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_amount",
+						"type": "uint256"
+					}
+				],
+				"name": "withdraw",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"stateMutability": "payable",
+				"type": "receive"
+			}
+		],
+		"devdoc": {
+			"author": "fevmate (https://github.com/wadealexc/fevmate)",
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {
+				"acceptOwnership()": {
+					"notice": "Used by the pending owner to accept the ownership transfer. Note: If this fails unexpectedly, check that the pendingOwner is not an ID address. The pending owner address should match the pending owner's msg.sender address.         "
+				},
+				"deposit()": {
+					"notice": "Deposit Fil into the contract, and mint WFIL 1:1."
+				},
+				"recoverDeposit(address,uint256)": {
+					"notice": "Used by owner to unstick Fil that was directly transferred to the contract without triggering the deposit/receive functions. When called, _amount stuck Fil is converted to WFIL on behalf of the passed-in _depositor. This method ONLY converts Fil that would otherwise be permanently lost. --- About --- In the event someone accidentally sends Fil to this contract via FVM method METHOD_SEND (or via selfdestruct), the Fil will be lost rather than being converted to WFIL. This is because METHOD_SEND  transfers value without invoking the recipient's code. If this occurs, the contract's Fil balance will go up, but no WFIL will be minted. Luckily, this means we can calculate the number of   stuck tokens as the contract's Fil balance minus WFIL totalSupply,  and ensure we're only touching stuck tokens with this method. Please ensure you only ever send funds to this contract using the FVM method InvokeEVM! This method is not a get-out-of-jail free card, and comes with no guarantees. (If you're a lost EVM dev, address.call uses InvokeEVM under the hood. So in a purely contract-contract context, you don't need to do anything special - use address.call, or call the WFIL.deposit method as you would normally.)"
+				},
+				"revokeOwnership()": {
+					"notice": "Allows the current owner to revoke the owner role, locking any onlyOwner functions. Note: this method requires that there is not currently a pending owner. To revoke ownership while there is a pending owner, the current owner must first set a new pending owner to address(0). Alternatively, the pending owner can claim ownership and then revoke it."
+				},
+				"transferOwnership(address)": {
+					"notice": "Works like most 2-step ownership transfer methods. The current owner can call this to set a new pending owner.  Note: the new owner address is NOT normalized - it is stored as-is. This is safe, because the acceptOwnership method enforces that the new owner can make a transaction as msg.sender."
+				},
+				"withdraw(uint256)": {
+					"notice": "Burns _amount WFIL from caller's balance, and transfers them the unwrapped Fil 1:1. Note: The fund transfer used here is address.call{value: _amount}(\"\"), which does NOT work with the FVM's builtin Multisig actor. This is because, under the hood, address.call acts like a message to an actor's InvokeEVM method. The Multisig actor does not implement this method.  This is a known issue, but we've decided to keep the method as-is, because it's likely that the Multisig actor is eventually upgraded to support this method. Even though a Multisig actor cannot directly withdraw, it is still possible for Multisigs to deposit, transfer, etc WFIL. So, if your Multisig actor needs to withdraw, you can transfer your WFIL to another contract, which can perform the withdrawal for you. (Though Multisig actors are not supported, BLS/SECPK/EthAccounts and EVM contracts can use this method normally)"
+				}
+			},
+			"notice": "Wrapped filecoin implementation, using ERC20-FEVM mixin.",
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"contracts/token/WFIL.sol": "WFIL"
+		},
+		"evmVersion": "london",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"contracts/access/OwnedClaimable.sol": {
+			"keccak256": "0x123a5b03dad2077ef62890a048a2220cc2637e0ea331e30fac2fe3a4d4638955",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://b612d964c684a8de109222f6c7119ecd383780b6cbf2572c259dba5798992a9f",
+				"dweb:/ipfs/QmavPHD8mb58rA8U5yAzL7KiAhyFhSbn3RrWdw4AHU34Bt"
+			]
+		},
+		"contracts/token/ERC20.sol": {
+			"keccak256": "0x2f5d552af1558ee014802a268681037b3b5f7dde65bc28a8400ab21470fd1263",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://7b9d5732a7b6b2e26e3197e5d96fe1023c925c8ca164b7f40d391d00675ee974",
+				"dweb:/ipfs/QmcJuNDZVT1JZEfdfp2xYxgojg69d57P1vxAs3LjzjsEKG"
+			]
+		},
+		"contracts/token/WFIL.sol": {
+			"keccak256": "0x6a1938a82207a89956168faadad6bc93941ac3bad2dd9c3507f3e4e29c791576",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://db41dd1fdb88b259db527bc73b611fc4da9d9fc3a7b9bd275d592e4221d07d4d",
+				"dweb:/ipfs/QmYsHE9J8xDEGddBKkXgCwkAbz979kMbRVt7Km6BqdpBZK"
+			]
+		},
+		"contracts/utils/FilAddress.sol": {
+			"keccak256": "0xbe176ce3d98aadbda895fde9c771534f511235689f34cfe93c97794221826a3c",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://a6f045631220f84768b8cb7087a5fe85e0e536b759f440031ee1b74e77984c74",
+				"dweb:/ipfs/QmR7b6FcDAK672BWanKGWE19pcEG7i7S4jqNnzCs4AYSCD"
+			]
+		}
+	},
+	"version": 1
+}

@@ -10,9 +10,6 @@
           <div class="mr-4 cursor-pointer fw-bold fs-16 wfil-address-text" @click="gotoGit">
             GITHUB
           </div>
-          <div class="mr-4 cursor-pointer fw-bold fs-16 wfil-address-text" @click="gotoDocs">
-            DOCS
-          </div>
           <div style="height: 25px; width: 1px; background-color: #d0d0d0" class="mr-4 d-md-block d-none"></div>
           <div class="d-md-block d-none">
             <w3m-network-switch></w3m-network-switch>
@@ -27,7 +24,7 @@
 <script>
 import {chainsMap} from "@/utils/model";
 import {configureChains, createClient} from "@wagmi/core";
-import {filChain} from "@/utils/filChain";
+import {filChain, filTestChain} from "@/utils/filChain";
 import {EthereumClient, modalConnectors, walletConnectProvider} from "@web3modal/ethereum";
 import {Web3Modal} from "@web3modal/html";
 
@@ -68,7 +65,7 @@ export default {
     }
   },
   created() {
-    const chains = [filChain];
+    const chains = [filChain,filTestChain];
     const {provider} = configureChains(chains, [
       walletConnectProvider({projectId: "ec217442a0dcd42b786be90246dfdb30"}),
     ]);
@@ -94,6 +91,20 @@ export default {
 
     this.$store.commit('SET_WEB3MODAL', web3modal)
 
+    web3modal.setDefaultChain(filChain)
+
+    ethereumClient.watchNetwork((data) => {
+      console.log('watchNetwork')
+      let chainId = data.chain.id
+      if (chainId === filChain.id){
+        this.$store.commit('SET_CONTRACT_ADDRESS', {contractAddress: '0x60E1773636CF5E4A227d9AC24F20fEca034ee25A'})
+        this.$store.dispatch('initAccount')
+      }else {
+        this.$store.commit('SET_CONTRACT_ADDRESS', {contractAddress: '0x6C297AeD654816dc5d211c956DE816Ba923475D2'})
+        this.$store.dispatch('initAccount')
+      }
+    })
+
     ethereumClient.watchAccount(() => {
       this.$store.dispatch('initAccount')
     })
@@ -103,7 +114,7 @@ export default {
       window.open('https://docs.froghub.io/wfil/overview')
     },
     gotoGit() {
-      window.open('https://github.com/froghub-io/wfil')
+      window.open('https://github.com/glifio/wfil')
     },
     checkMenu(menu) {
       let {link} = menu

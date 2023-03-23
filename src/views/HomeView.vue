@@ -29,18 +29,11 @@
             </div>
 
             <div class="fs-24 fw-bold mt-4 ">
-              NOW THE ERC-2612 STANDARD
+              NOW THE ERC-20 STANDARD
             </div>
             <div class="fs-16 fw-medium ">
-              ERC-2612 is a standard that defines how tokens are transferred and how
+              ERC-20 is a standard that defines how tokens are transferred and how
               to keep a consistent record of those transfers among tokens in the Filecoin Network.
-            </div>
-
-            <div class="fs-24 fw-bold mt-4 ">
-              FUTURE THE FRC-46 STANDARD
-            </div>
-            <div class="fs-16 fw-medium ">
-              Coming soon...Wrapped Filecoin v2
             </div>
 
           </div>
@@ -259,6 +252,23 @@
       </svg>
       {{ voteResuleFailMes }}
     </div>
+
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-6 col-md-9 text-center mb-30 " style="margin-top: 100px;">
+            <span class="section-title fw-extra-bold fs-36">Partners</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12" data-aos="fade-left">
+            <div class="brand-carousel d-flex align-items-center">
+                <div v-for="(log,index) in logos" :key="index" class="brand-item d-flex align-items-center justify-content-center ml-4">
+                  <img class="img-fluid" :src="log" alt="">
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
   </section>
 </template>
 
@@ -267,7 +277,7 @@ import Clipboard from 'clipboard';
 import SlideTabs from '@/components/SlideTabs'
 import {prepareWriteContract, writeContract} from "@wagmi/core";
 import {ethers} from "ethers";
-import WFILABI from '@/assets/WFIL.json'
+import WFILABI from '@/assets/WFIL_metadata.json'
 
 export default {
   name: 'HomeView',
@@ -287,31 +297,19 @@ export default {
           receive: ''
         }
       },
-      contractAddress: '0xAf6518f6F370D2f92df657299F7d910548Fb1205',
+      logos: ["/images/brands/01-colored.png","/images/brands/02-colored.png","/images/brands/03-colored.png","/images/brands/04-colored.png","/images/brands/05-colored.png"],
       tablist: [
         {
           id: 'TaskManagement',
-          name: 'ERC-2612',
+          name: 'ERC-20',
           icon: '/images/icons/ioc1.png',
-          content: 'wFIL is a wrapper token that features a 1:1 peg ratio to FIL and uses the ERC-2612 token standard instead.',
+          content: 'wFIL is a wrapper token that features a 1:1 peg ratio to FIL and uses the ERC-20 token standard instead.',
         },
         {
           id: 'Decentralized',
           name: 'Decentralized',
           icon: '/images/icons/ioc2.png',
           content: 'You can use a decentralized exchange (similar to Uniswap on ETH) to wrap/ unwrap FIL directly',
-        },
-        {
-          id: 'Interoperability',
-          name: 'Flash Loan',
-          icon: '/images/icons/ioc3.png',
-          content: 'Allows you to flashLoan an arbitrary amount of Wrapped FIL, unbacked by real FIL, with the condition that it is burned before the end of the transaction. No fees are charged.',
-        },
-        {
-          id: 'Compatibility',
-          name: 'Compatibility',
-          icon: '/images/icons/ioc4.png',
-          content: 'wFIL will support the upcoming FRC-46 standard',
         },
       ],
       filPrice: 0
@@ -389,9 +387,11 @@ export default {
       }
       this.data.fil.receive = ''
 
+      console.log('wrap',ethers.utils.parseEther(receive.toString()), this.$store.state.contractAddress)
+
       const config = await prepareWriteContract({
         address: this.$store.state.contractAddress,
-        abi: WFILABI.abi,
+        abi: WFILABI.output.abi,
         functionName: 'deposit',
         overrides: {
           from: this.address,
@@ -399,6 +399,7 @@ export default {
         },
       })
       try {
+
         const data = await writeContract(config)
         data.wait().then(res => {
           console.log('ok', res)
@@ -462,7 +463,7 @@ export default {
 
       const config = await prepareWriteContract({
         address: this.$store.state.contractAddress,
-        abi: WFILABI.abi,
+        abi: WFILABI.output.abi,
         functionName: 'withdraw',
         overrides: {
           from: this.address
@@ -537,7 +538,11 @@ export default {
       // });
     },
     gotoBrowser() {
-      window.open(`https://explorer.glif.io/address/${this.contractAddress}/?network=hyperspace`)
+      if (this.contractAddress === '0x60E1773636CF5E4A227d9AC24F20fEca034ee25A'){
+        window.open(`https://explorer.glif.io/address/${this.contractAddress}`)
+      }else {
+        window.open(`https://explorer.glif.io/address/${this.contractAddress}/?network=hyperspace`)
+      }
     },
     copyAddress() {
 
@@ -564,6 +569,9 @@ export default {
         return ''
       }
       return this.address.toString().substring(0, 6) + '...' + this.address.toString().substring(this.address.length - 2)
+    },
+    contractAddress(){
+      return this.$store.state.contractAddress
     },
     simpleContractAddress() {
       if (!this.contractAddress) {
