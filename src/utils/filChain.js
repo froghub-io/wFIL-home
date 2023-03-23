@@ -25,7 +25,7 @@ const filChain = {
         symbol: 'FIL',
     },
     rpcUrls: {
-        default: { http: ['http://api.node.glif.io/'] },
+        default: { http: ['https://api.node.glif.io/'] },
     },
     blockExplorers: {
         default: { name: 'SnowTrace', url: 'https://filfox.info/en' },
