@@ -95,14 +95,17 @@ export default {
 
     ethereumClient.watchNetwork((data) => {
       console.log('watchNetwork')
-      let chainId = data.chain.id
-      if (chainId === filChain.id){
-        this.$store.commit('SET_CONTRACT_ADDRESS', {contractAddress: '0x60E1773636CF5E4A227d9AC24F20fEca034ee25A'})
-        this.$store.dispatch('initAccount')
-      }else {
-        this.$store.commit('SET_CONTRACT_ADDRESS', {contractAddress: '0x6C297AeD654816dc5d211c956DE816Ba923475D2'})
-        this.$store.dispatch('initAccount')
+      if (data && data.chain){
+        let chainId = data.chain.id
+        if (chainId === filChain.id){
+          this.$store.commit('SET_CONTRACT_ADDRESS', {contractAddress: '0x60E1773636CF5E4A227d9AC24F20fEca034ee25A'})
+          this.$store.dispatch('initAccount')
+        }else {
+          this.$store.commit('SET_CONTRACT_ADDRESS', {contractAddress: '0x6C297AeD654816dc5d211c956DE816Ba923475D2'})
+          this.$store.dispatch('initAccount')
+        }
       }
+
     })
 
     ethereumClient.watchAccount(() => {
