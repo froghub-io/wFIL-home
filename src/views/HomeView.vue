@@ -263,7 +263,7 @@
           <div class="row ">
             <div class="col-12" data-aos="fade-left">
               <div class="brand-carousel-s d-flex align-items-center">
-                <div v-for="(log,index) in logos" :key="index"  class="brand-item d-flex align-items-center justify-content-center ">
+                <div v-for="(log,index) in logos" :key="index" @click="toParthers(index)" class="brand-item d-flex align-items-center justify-content-center ">
                   <img style="width: 70px" class="img-fluid" :src="log" alt="">
                 </div>
               </div>
@@ -275,7 +275,7 @@
           <div class="row " v-for="(log,index) in logos" :key="index" >
             <div class="col-12 mt-2" data-aos="fade-left" :key="index">
               <div class="brand-carousel-s d-flex align-items-center justify-content-center">
-                <div  class="brand-item d-flex align-items-center justify-content-center " style="margin-left: 0 !important;">
+                <div  class="brand-item d-flex align-items-center justify-content-center " @click="toParthers(index)" style="margin-left: 0 !important;">
                   <img style="width: 70px" class="img-fluid" :src="log" alt="">
                 </div>
               </div>
@@ -312,7 +312,8 @@ export default {
           receive: ''
         }
       },
-      logos: ["/images/brands/filecoin.png","/images/brands/ipfs.png","/images/brands/protocol labs.png","/images/brands/filecoin_foundation.png","/images/brands/froghub.png","/images/brands/fvm.png","/images/brands/glif.png"],
+      logos: ["/images/brands/filecoin.png","/images/brands/ipfs.png","/images/brands/glif.png","/images/brands/fvm.png","/images/brands/protocol labs.png","/images/brands/filecoin_foundation.png","/images/brands/froghub.png"],
+      urls: ["https://filecoin.io/","https://ipfs.tech/","https://www.glif.io/","https://fvm.filecoin.io/","https://protocol.ai/","https://fil.org/","https://www.froghub.io/"],
       tablist: [
         {
           id: 'TaskManagement',
@@ -338,6 +339,9 @@ export default {
     this.interval()
   },
   methods: {
+    toParthers(index){
+      window.open(this.urls[index])
+    },
     connectWallet() {
       this.web3modal.openModal()
     },
