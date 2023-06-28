@@ -94,14 +94,14 @@ export default {
     web3modal.setDefaultChain(filChain)
 
     ethereumClient.watchNetwork((data) => {
-      console.log('watchNetwork')
+      console.log('watchNetwork',data)
       if (data && data.chain){
         let chainId = data.chain.id
         if (chainId === filChain.id){
           this.$store.commit('SET_CONTRACT_ADDRESS', {contractAddress: '0x60E1773636CF5E4A227d9AC24F20fEca034ee25A'})
           this.$store.dispatch('initAccount')
         }else {
-          this.$store.commit('SET_CONTRACT_ADDRESS', {contractAddress: '0x6C297AeD654816dc5d211c956DE816Ba923475D2'})
+          this.$store.commit('SET_CONTRACT_ADDRESS', {contractAddress: '0xaC26a4Ab9cF2A8c5DBaB6fb4351ec0F4b07356c4'})
           this.$store.dispatch('initAccount')
         }
       }
