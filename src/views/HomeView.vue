@@ -557,10 +557,10 @@ export default {
       // });
     },
     gotoBrowser() {
-      if (this.contractAddress === '0x60E1773636CF5E4A227d9AC24F20fEca034ee25A'){
+      if (this.contractAddress === '0x60E1773636CF5E4A227d9AC24F20fEca034ee25A') {
         window.open(`https://explorer.glif.io/address/${this.contractAddress}`)
       }else {
-        window.open(`https://explorer.glif.io/address/${this.contractAddress}/?network=hyperspace`)
+        window.open(`https://explorer.glif.io/address/${this.contractAddress}/?network=calibration`)
       }
     },
     copyAddress() {
