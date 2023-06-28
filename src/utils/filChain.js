@@ -1,17 +1,18 @@
 const filTestChain = {
-    id: 3141,
-    name: 'Filecoin - Hyperspace',
-    network: 'wallaby',
+    id: 314159,
+    name: 'Filecoin - Calibration',
+    network: 'Calibration',
     nativeCurrency: {
         decimals: 18,
         name: 'TFIL',
         symbol: 'TFIL',
     },
     rpcUrls: {
-        default: { http: ['https://api.hyperspace.node.glif.io/rpc/v1'] },
+        default: {http: ['https://api.calibration.node.glif.io/']},
+        public: {http: ['https://api.calibration.node.glif.io/']},
     },
     blockExplorers: {
-        default: { name: 'SnowTrace', url: 'https://hyperspace.filfox.info/en' },
+        default: {name: 'SnowTrace', url: 'https://calibration.filfox.info/en'},
     },
 }
 
